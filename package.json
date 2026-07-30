@@ -1,0 +1,27 @@
+{
+  "name": "cod-temporary-credit-management",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "max dev",
+    "build": "max build",
+    "lint": "eslint src config --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ant-design/icons": "5.6.1",
+    "@ant-design/pro-components": "2.8.10",
+    "@umijs/max": "4.6.82",
+    "antd": "5.29.3",
+    "dayjs": "1.11.18"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.9",
+    "@types/react-dom": "19.2.3",
+    "eslint": "8.57.1",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

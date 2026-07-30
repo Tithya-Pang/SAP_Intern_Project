@@ -1,0 +1,42 @@
+.shell{min-height:100vh}
+.header{position:fixed;z-index:20;top:0;left:0;right:0;height:64px;padding:0 20px;display:flex;align-items:center;background:#fff;border-bottom:1px solid #e8ebf0}
+.brand{width:330px;display:flex;align-items:center;gap:12px;white-space:nowrap}
+.mark{width:43px;height:34px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#0878ef 55%,#0058ba 55%);font-weight:800;border-radius:5px 10px 5px 5px}
+.search{width:min(420px,38vw)}
+.profile{margin-left:auto;display:flex;align-items:center;gap:14px}
+.bell{font-size:20px}.sider{position:fixed!important;top:64px;bottom:0;z-index:10;border-right:1px solid #e8ebf0}
+.menu{border-inline-end:0!important;padding:14px 8px}
+.collapse{position:absolute;left:16px;bottom:18px;border:0;background:transparent;padding:8px;cursor:pointer;display:flex;gap:10px;font-weight:600}
+.content{margin:64px 0 0 216px;min-height:calc(100vh - 64px);padding:26px 28px;transition:margin .2s}
+.contentCollapsed{margin-left:68px}.loading{min-height:100vh;display:grid;place-items:center}@media(max-width:800px){.brand{width:auto}
+.brandName{display:none}.search{margin-left:18px}
+.profile :global(.ant-select){max-width:140px}
+.content{padding:18px}}
+.brand {
+  width: 320px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.sapLogo {
+  display: block;
+  width: 72px;
+  height: 36px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.brandName {
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.header {
+  height: 64px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
