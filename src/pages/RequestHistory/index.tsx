@@ -1,6 +1,97 @@
-import { DownloadOutlined,SearchOutlined } from '@ant-design/icons';
-import { Button,Card,DatePicker,Input,Select,Space,Tabs,Typography,message } from 'antd';
-import { useMemo,useState } from 'react';
-import { useCreditData } from '@/hooks/useCreditData';
-import { RequestTable } from '@/components/RequestTable';
-export default function RequestHistory(){const{requests,customers,loading}=useCreditData();const[tab,setTab]=useState('ALL');const[query,setQuery]=useState('');const[unit,setUnit]=useState('');const data=useMemo(()=>requests.filter(r=>(tab==='ALL'||r.status===tab)&&(!unit||r.businessUnit===unit)&&`${r.requestNumber} ${customers.find(c=>c.id===r.customerId)?.name}`.toLowerCase().includes(query.toLowerCase())),[requests,customers,tab,query,unit]);return<div className="page"><div className="pageHeader"><div><Typography.Title level={2} className="pageTitle">Request History</Typography.Title><div className="pageSubtitle">View all temporary credit requests and their decision history.</div></div><Button icon={<DownloadOutlined/>} onClick={()=>message.success('History exported.')}>Export</Button></div><Card className="surface"><Tabs activeKey={tab} onChange={setTab} items={[{key:'ALL',label:`All (${requests.length})`},{key:'APPROVED',label:'Approved'},{key:'REJECTED',label:'Rejected'},{key:'MORE_INFO_REQUIRED',label:'More Info Requested'}]}/><Space wrap style={{marginBottom:16}}><DatePicker.RangePicker/><Input prefix={<SearchOutlined/>} placeholder="Search customer or request ID…" value={query} onChange={e=>setQuery(e.target.value)} style={{width:270}}/><Select value={unit} onChange={setUnit} style={{width:180}} options={[{value:'',label:'All business units'},...Array.from(new Set(customers.map(c=>c.businessUnit))).map(v=>({value:v,label:v}))]}/><Button type="primary">Search</Button><Button onClick={()=>{setQuery('');setUnit('');setTab('ALL');}}>Reset</Button></Space><RequestTable requests={data} customers={customers} loading={loading}/></Card></div>;}
+import { DownloadOutlined, SearchOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  DatePicker,
+  Input,
+  Select,
+  Space,
+  Tabs,
+  Typography,
+  message,
+} from "antd";
+import { useMemo, useState } from "react";
+import { useCreditData } from "@/hooks/useCreditData";
+import { RequestTable } from "@/components/RequestTable";
+export default function RequestHistory() {
+  const { requests, customers, loading } = useCreditData();
+  const [tab, setTab] = useState("ALL");
+  const [query, setQuery] = useState("");
+  const [unit, setUnit] = useState("");
+  const data = useMemo(
+    () =>
+      requests.filter(
+        (r) =>
+          (tab === "ALL" || r.status === tab) &&
+          (!unit || r.businessUnit === unit) &&
+          `${r.requestNumber} ${customers.find((c) => c.id === r.customerId)?.name}`
+            .toLowerCase()
+            .includes(query.toLowerCase()),
+      ),
+    [requests, customers, tab, query, unit],
+  );
+  return (
+    <div className="page">
+      <div className="pageHeader">
+        <div>
+          <Typography.Title level={2} className="pageTitle">
+            Request History
+          </Typography.Title>
+          <div className="pageSubtitle">
+            View all temporary credit requests and their decision history.
+          </div>
+        </div>
+        <Button
+          icon={<DownloadOutlined />}
+          onClick={() => message.success("History exported.")}
+        >
+          Export
+        </Button>
+      </div>
+      <Card className="surface">
+        <Tabs
+          activeKey={tab}
+          onChange={setTab}
+          items={[
+            { key: "ALL", label: `All (${requests.length})` },
+            { key: "APPROVED", label: "Approved" },
+            { key: "REJECTED", label: "Rejected" },
+            { key: "MORE_INFO_REQUIRED", label: "More Info Requested" },
+          ]}
+        />
+        <Space wrap style={{ marginBottom: 16 }}>
+          <DatePicker.RangePicker />
+          <Input
+            prefix={<SearchOutlined />}
+            placeholder="Search customer or request ID…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            style={{ width: 270 }}
+          />
+          <Select
+            value={unit}
+            onChange={setUnit}
+            style={{ width: 180 }}
+            options={[
+              { value: "", label: "All business units" },
+              ...Array.from(new Set(customers.map((c) => c.businessUnit))).map(
+                (v) => ({ value: v, label: v }),
+              ),
+            ]}
+          />
+          <Button type="primary">Search</Button>
+          <Button
+            onClick={() => {
+              setQuery("");
+              setUnit("");
+              setTab("ALL");
+            }}
+          >
+            Reset
+          </Button>
+        </Space>
+        <RequestTable requests={data} customers={customers} loading={loading} />
+      </Card>
+    </div>
+  );
+}
