@@ -1,9 +1,9 @@
 import {
   ArrowRightOutlined,
   CheckCircleOutlined,
-  CloseCircleOutlined,
   DollarOutlined,
   FileTextOutlined,
+  ExclamationCircleOutlined,
 } from '@ant-design/icons';
 import {
   Alert,
@@ -129,7 +129,7 @@ export default function Overview() {
           title="High Risk Requests"
           value={highRisk}
           prefix={
-            <CloseCircleOutlined
+            <ExclamationCircleOutlined
               style={{
                 fontSize: 28,
                 color: '#e5484d',

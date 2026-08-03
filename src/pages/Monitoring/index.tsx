@@ -10,6 +10,7 @@ import {
   Form,
   Input,
   Modal,
+  Progress,
   Space,
   Tabs,
   Typography,
@@ -118,9 +119,10 @@ export default function Monitoring() {
             eligible.filter((r) => ["ACTIVE", "APPROVED"].includes(r.status))
               .length
           }
-          prefix={<CheckCircleOutlined />}
+        //   prefix={<CheckCircleOutlined />}
           helper="Currently monitored"
           color="#0a6ff2"
+         
         />
         <KpiCard
           title="Due Today"
@@ -131,7 +133,7 @@ export default function Monitoring() {
         <KpiCard
           title="Overdue"
           value={overdue.length}
-          prefix={<ExclamationCircleOutlined />}
+        //   prefix={<ExclamationCircleOutlined />}
           helper={formatMoney(
             overdue.reduce((s, r) => s + r.requestedAmount, 0),
           )}
@@ -142,7 +144,7 @@ export default function Monitoring() {
           value={formatMoney(
             eligible.reduce((s, r) => s + r.requestedAmount, 0),
           )}
-          prefix={<DollarOutlined />}
+          //   prefix={<DollarOutlined />}
           helper={`Across ${eligible.length} requests`}
           color="#169b62"
         />
