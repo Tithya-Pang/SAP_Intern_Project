@@ -105,7 +105,7 @@ function Shell() {
       {
         key: "/reports-analytics",
         icon: <BarChartOutlined />,
-        label: "Reports & Analytics",
+        label: "Reports & Provinces",
         roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
       },
       {

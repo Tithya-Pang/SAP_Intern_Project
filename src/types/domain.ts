@@ -1,12 +1,12 @@
 export type Role = 'SALES_OPERATION' | 'SALES_MANAGER' | 'FINANCE_AR' | 'ADMINISTRATOR';
-export type RiskLevel = 'LOW' | 'MEDIUM' | 'HIGH';
+export type RiskLevel = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
 export type RequestStatus =
   | 'DRAFT' | 'PENDING_SALES_MANAGER_APPROVAL' | 'MORE_INFO_REQUIRED' | 'RESUBMITTED'
   | 'APPROVED' | 'ACTIVE' | 'REJECTED' | 'DUE_TODAY' | 'OVERDUE' | 'SETTLED' | 'CANCELLED';
 
 export interface User { id: string; name: string; initials: string; role: Role; businessUnit: string }
 export interface Customer {
-  id: string; code: string; name: string; businessUnit: string; riskLevel: RiskLevel; riskScore: number;
+  id: string; code: string; name: string; businessUnit: string; province: string; riskLevel: RiskLevel; riskScore: number;
   outstandingBalance: number; overdueAmount: number; overdueInvoices: number; latePayments6m: number;
   creditUtilisation: number; activeTemporaryCredit: number;
 }

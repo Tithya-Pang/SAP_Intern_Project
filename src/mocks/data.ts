@@ -10,17 +10,20 @@ export const users: User[] = [
   { id:'u3', name:'Rithy Sok', initials:'RS', role:'FINANCE_AR', businessUnit:'Cambodia' },
   { id:'u4', name:'Admin User', initials:'AU', role:'ADMINISTRATOR', businessUnit:'All Units' }
 ];
-const customerRows: Array<[string,string,string,string,'LOW'|'MEDIUM'|'HIGH',number,number,number,number,number,number,number]> = [
-  ['c1','KH0001','Angkor Retail Group','Phnom Penh','LOW',22,18000,0,0,1,45,4000],
-  ['c2','KH0002','Mekong Distribution','Phnom Penh','HIGH',86,72500,18600,4,5,92,12000],
-  ['c3','KH0003','Phnom Penh Mart','Phnom Penh','MEDIUM',58,39400,3400,1,2,68,8000],
-  ['c4','KH0004','Tonle Fresh Foods','Kandal','LOW',31,11600,0,0,0,38,0],
-  ['c5','KH0005','Khmer Harvest Supply','Kampong Cham','MEDIUM',53,24600,1800,1,2,63,3500],
-  ['c6','KH0006','Golden Bay Wholesale','Sihanoukville','HIGH',74,48800,9200,3,4,85,9600],
-  ['c7','KH0007','Lotus Market Cambodia','Battambang','LOW',18,9400,0,0,0,29,0],
-  ['c8','KH0008','Royal Home Stores','Siem Reap','MEDIUM',61,31200,2700,1,3,71,5200]
+const customerRows: Array<[string,string,string,string,string,'LOW'|'MEDIUM'|'HIGH'|'CRITICAL',number,number,number,number,number,number,number]> = [
+  ['c1','KH0001','Angkor Retail Group','Vital Premium Water','Phnom Penh','LOW',22,18000,0,0,1,45,4000],
+  ['c2','KH0002','Mekong Distribution','Mee Chiet','Kandal','CRITICAL',86,72500,18600,4,5,92,12000],
+  ['c3','KH0003','Phnom Penh Mart','OML Distribution','Phnom Penh','MEDIUM',58,39400,3400,1,2,68,8000],
+  ['c4','KH0004','Tonle Fresh Foods','General Trade','Kampong Cham','LOW',31,11600,0,0,0,38,0],
+  ['c5','KH0005','Khmer Harvest Supply','Modern Trade','Battambang','MEDIUM',53,24600,1800,1,2,63,3500],
+  ['c6','KH0006','Golden Bay Wholesale','Vital Premium Water','Siem Reap','HIGH',74,48800,9200,3,4,85,9600],
+  ['c7','KH0007','Lotus Market Cambodia','Mee Chiet','Kampot','LOW',18,9400,0,0,0,29,0],
+  ['c8','KH0008','Royal Home Stores','OML Distribution','Kandal','MEDIUM',61,31200,2700,1,3,71,5200]
 ];
-export const customers: Customer[] = customerRows.map(([id,code,name,businessUnit,riskLevel,riskScore,outstandingBalance,overdueAmount,overdueInvoices,latePayments6m,creditUtilisation,activeTemporaryCredit]) => ({ id,code,name,businessUnit,riskLevel,riskScore,outstandingBalance,overdueAmount,overdueInvoices,latePayments6m,creditUtilisation,activeTemporaryCredit }));
+export const customers: Customer[] = customerRows.map(([id,code,name,businessUnit,province,riskLevel,riskScore,outstandingBalance,overdueAmount,overdueInvoices,latePayments6m,creditUtilisation,activeTemporaryCredit]) => ({ id,code,name,businessUnit,province,riskLevel,riskScore,outstandingBalance,overdueAmount,overdueInvoices,latePayments6m,creditUtilisation,activeTemporaryCredit }));
+export const provinceOptions = ['Phnom Penh','Banteay Meanchey','Battambang','Kampong Cham','Kampong Chhnang','Kampong Speu','Kampong Thom','Kampot','Kandal','Kep','Koh Kong','Kratie','Mondulkiri','Oddar Meanchey','Pailin','Preah Sihanouk','Preah Vihear','Prey Veng','Pursat','Ratanakiri','Siem Reap','Stung Treng','Svay Rieng','Takeo','Tboung Khmum'];
+export const businessUnitOptions = ['Vital Premium Water','Mee Chiet','OML Distribution','Modern Trade','General Trade'];
+export const salespersonOptions = ['Chan Rathana','Long Visal','Keo Dara','Lim Sothea'];
 const statuses: RequestStatus[] = ['PENDING_SALES_MANAGER_APPROVAL','PENDING_SALES_MANAGER_APPROVAL','PENDING_SALES_MANAGER_APPROVAL','PENDING_SALES_MANAGER_APPROVAL','PENDING_SALES_MANAGER_APPROVAL','PENDING_SALES_MANAGER_APPROVAL','PENDING_SALES_MANAGER_APPROVAL','DRAFT','MORE_INFO_REQUIRED','RESUBMITTED','APPROVED','ACTIVE','ACTIVE','APPROVED','REJECTED','SETTLED','ACTIVE','ACTIVE','CANCELLED','DRAFT'];
 export const requests: TemporaryCreditRequest[] = statuses.map((status, index) => {
   const customer = customers[index % customers.length]!;
@@ -54,7 +57,7 @@ export const payments: PaymentRecord[] = customers.flatMap((customer,index) => [
 ]);
 export const defaultSettings: AppSettings = {
   requestPrefix:'TCR', nextSequence:21, lowRiskMax:35, mediumRiskMax:65, notificationsEnabled:true,
-  businessUnits:['Phnom Penh','Kandal','Kampong Cham','Sihanoukville','Battambang','Siem Reap'],
+  businessUnits:businessUnitOptions,
   rejectionReasons:['Existing overdue invoices','High outstanding balance','Poor payment history','Excessive credit utilisation','Active temporary credit already exists','Requested amount is too high','Insufficient supporting information','Promised payment date is not acceptable','Duplicate request','Other'],
   informationTypes:['Updated promised payment date','Payment evidence','Customer confirmation','Invoice document','Delivery or Sales Order document','Customer payment explanation','Manager confirmation','Other']
 };

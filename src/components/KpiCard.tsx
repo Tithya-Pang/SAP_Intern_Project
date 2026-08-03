@@ -31,11 +31,11 @@ export function KpiCard({
           {prefix}
           <span style={{ color, fontSize: 25, fontWeight: 600 }}>{value}</span>
         </div>
-        {/* {helper && (
+        {helper && (
           <div className="muted" style={{ marginTop: 6 }}>
             {helper}
           </div>
-        )} */}
+        )}
       </div>
     </Card>
   );
