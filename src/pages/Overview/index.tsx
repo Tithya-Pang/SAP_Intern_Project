@@ -121,7 +121,7 @@ export default function Overview() {
               }}
             />
           }
-          helper="Requests need your decision"
+          // helper="Requests need your decision"
           color="#0a6ff2"
         />
 
@@ -136,7 +136,7 @@ export default function Overview() {
               }}
             />
           }
-          helper="Require careful review"
+          // helper="Require careful review"
           color="#e5484d"
         />
 
@@ -156,7 +156,7 @@ export default function Overview() {
               }}
             />
           }
-          helper="Across pending requests"
+          // helper="Across pending requests"
           color="#169b62"
         />
 
@@ -171,7 +171,7 @@ export default function Overview() {
               }}
             />
           }
-          helper="Completed approvals"
+          // helper="Completed approvals"
           color="#7c3aed"
         />
       </div>

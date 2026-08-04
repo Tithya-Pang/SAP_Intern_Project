@@ -120,23 +120,23 @@ export default function Monitoring() {
               .length
           }
         //   prefix={<CheckCircleOutlined />}
-          helper="Currently monitored"
+          // helper="Currently monitored"
           color="#0a6ff2"
          
         />
         <KpiCard
           title="Due Today"
           value={due.length}
-          helper={formatMoney(due.reduce((s, r) => s + r.requestedAmount, 0))}
-          color="#f59e0b"
+          // helper={formatMoney(due.reduce((s, r) => s + r.requestedAmount, 0))}
+          // color="#f59e0b"
         />
         <KpiCard
           title="Overdue"
           value={overdue.length}
         //   prefix={<ExclamationCircleOutlined />}
-          helper={formatMoney(
-            overdue.reduce((s, r) => s + r.requestedAmount, 0),
-          )}
+          // helper={formatMoney(
+          //   overdue.reduce((s, r) => s + r.requestedAmount, 0),
+          // )}
           color="#e5484d"
         />
         <KpiCard
@@ -145,7 +145,7 @@ export default function Monitoring() {
             eligible.reduce((s, r) => s + r.requestedAmount, 0),
           )}
           //   prefix={<DollarOutlined />}
-          helper={`Across ${eligible.length} requests`}
+          //helper={`Across ${eligible.length} requests`}
           color="#169b62"
         />
       </div>
