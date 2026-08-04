@@ -10,6 +10,7 @@ import {
   Form,
   Input,
   Modal,
+  Progress,
   Space,
   Tabs,
   Typography,
@@ -118,23 +119,24 @@ export default function Monitoring() {
             eligible.filter((r) => ["ACTIVE", "APPROVED"].includes(r.status))
               .length
           }
-          prefix={<CheckCircleOutlined />}
-          helper="Currently monitored"
+        //   prefix={<CheckCircleOutlined />}
+          // helper="Currently monitored"
           color="#0a6ff2"
+         
         />
         <KpiCard
           title="Due Today"
           value={due.length}
-          helper={formatMoney(due.reduce((s, r) => s + r.requestedAmount, 0))}
-          color="#f59e0b"
+          // helper={formatMoney(due.reduce((s, r) => s + r.requestedAmount, 0))}
+          // color="#f59e0b"
         />
         <KpiCard
           title="Overdue"
           value={overdue.length}
-          prefix={<ExclamationCircleOutlined />}
-          helper={formatMoney(
-            overdue.reduce((s, r) => s + r.requestedAmount, 0),
-          )}
+        //   prefix={<ExclamationCircleOutlined />}
+          // helper={formatMoney(
+          //   overdue.reduce((s, r) => s + r.requestedAmount, 0),
+          // )}
           color="#e5484d"
         />
         <KpiCard
@@ -142,8 +144,8 @@ export default function Monitoring() {
           value={formatMoney(
             eligible.reduce((s, r) => s + r.requestedAmount, 0),
           )}
-          prefix={<DollarOutlined />}
-          helper={`Across ${eligible.length} requests`}
+          //   prefix={<DollarOutlined />}
+          //helper={`Across ${eligible.length} requests`}
           color="#169b62"
         />
       </div>

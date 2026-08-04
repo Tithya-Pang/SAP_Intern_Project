@@ -1,9 +1,9 @@
 import {
   ArrowRightOutlined,
   CheckCircleOutlined,
-  CloseCircleOutlined,
   DollarOutlined,
   FileTextOutlined,
+  ExclamationCircleOutlined,
 } from '@ant-design/icons';
 import {
   Alert,
@@ -121,7 +121,7 @@ export default function Overview() {
               }}
             />
           }
-          helper="Requests need your decision"
+          // helper="Requests need your decision"
           color="#0a6ff2"
         />
 
@@ -129,14 +129,14 @@ export default function Overview() {
           title="High Risk Requests"
           value={highRisk}
           prefix={
-            <CloseCircleOutlined
+            <ExclamationCircleOutlined
               style={{
                 fontSize: 28,
                 color: '#e5484d',
               }}
             />
           }
-          helper="Require careful review"
+          // helper="Require careful review"
           color="#e5484d"
         />
 
@@ -156,7 +156,7 @@ export default function Overview() {
               }}
             />
           }
-          helper="Across pending requests"
+          // helper="Across pending requests"
           color="#169b62"
         />
 
@@ -171,7 +171,7 @@ export default function Overview() {
               }}
             />
           }
-          helper="Completed approvals"
+          // helper="Completed approvals"
           color="#7c3aed"
         />
       </div>
