@@ -1,31 +1,20 @@
 import {
-  AppstoreOutlined,
-  AuditOutlined,
   BarChartOutlined,
   BellOutlined,
-  CheckCircleOutlined,
-  ClockCircleOutlined,
+  DownOutlined,
   FileAddOutlined,
   FileTextOutlined,
-  HistoryOutlined,
+  HomeOutlined,
+  LineChartOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   SafetyCertificateOutlined,
   SearchOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import {
-  Avatar,
-  Badge,
-  Input,
-  Layout,
-  Menu,
-  Select,
-  Spin,
-  Typography,
-} from "antd";
-import type { MenuProps } from "antd";
+import { Avatar, Badge, Input, Layout, Select, Spin, Typography } from "antd";
 import { Outlet, history, useLocation } from "@umijs/max";
+import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { AppProvider, useApp } from "@/context/AppContext";
 import type { Role } from "@/types/domain";
@@ -37,125 +26,248 @@ const roleLabel: Record<Role, string> = {
   FINANCE_AR: "Finance AR",
   ADMINISTRATOR: "Administrator",
 };
-function Shell() {
-  const [collapsed, setCollapsed] = useState(false);
-  const { currentUser, users, setCurrentUser } = useApp();
-  const location = useLocation();
-  const items = useMemo<MenuProps["items"]>(() => {
-    if (!currentUser) return [];
-    const all = [
-      {
-        key: "/overview",
-        icon: <AppstoreOutlined />,
-        label: "Overview",
-        roles: [
-          "SALES_OPERATION",
-          "SALES_MANAGER",
-          "FINANCE_AR",
-          "ADMINISTRATOR",
-        ],
-      },
-      {
-        key: "/my-requests",
-        icon: <FileAddOutlined />,
-        label: "My Requests",
-        roles: ["SALES_OPERATION", "ADMINISTRATOR"],
-      },
-      {
-        key: "/pending-approval",
-        icon: <FileTextOutlined />,
-        label: "Pending Approval",
-        roles: ["SALES_MANAGER", "ADMINISTRATOR"],
-      },
-      {
-        key: "/customer-risk",
-        icon: <SafetyCertificateOutlined />,
-        label: "Customer Risk",
-        roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
-      },
+
+type NavItem = {
+  key: string;
+  label: string;
+  roles: Role[];
+  icon?: ReactNode;
+  badge?: number;
+  children?: NavItem[];
+};
+
+const navItems: NavItem[] = [
+  {
+    key: "/overview",
+    label: "Overview",
+    icon: <HomeOutlined />,
+    roles: ["SALES_OPERATION", "SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
+  },
+  {
+    key: "/pending-approval",
+    label: "Approval Queue",
+    icon: <FileTextOutlined />,
+    badge: 12,
+    roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
+  },
+  {
+    key: "credit-monitoring",
+    label: "Credit Monitoring",
+    icon: <LineChartOutlined />,
+    roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
+    children: [
       {
         key: "/approved-temporary-credit",
-        icon: <CheckCircleOutlined />,
-        label: "Approved Credit",
+        label: "Active Credit",
         roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
       },
       {
         key: "/due-today",
-        icon: <ClockCircleOutlined />,
         label: "Due Today",
         roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
       },
       {
         key: "/overdue",
-        icon: <AuditOutlined />,
         label: "Overdue",
         roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
       },
+    ],
+  },
+  {
+    key: "/customer-risk",
+    label: "Customer Risk",
+    icon: <SafetyCertificateOutlined />,
+    roles: ["SALES_OPERATION", "SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
+  },
+  {
+    key: "requests",
+    label: "Requests",
+    icon: <FileAddOutlined />,
+    roles: ["SALES_OPERATION", "ADMINISTRATOR"],
+    children: [
+      {
+        key: "/my-requests",
+        label: "All Requests",
+        roles: ["SALES_OPERATION", "ADMINISTRATOR"],
+      },
       {
         key: "/request-history",
-        icon: <HistoryOutlined />,
         label: "Request History",
-        roles: [
-          "SALES_OPERATION",
-          "SALES_MANAGER",
-          "FINANCE_AR",
-          "ADMINISTRATOR",
-        ],
+        roles: ["SALES_OPERATION", "ADMINISTRATOR"],
       },
-      {
-        key: "/reports-analytics",
-        icon: <BarChartOutlined />,
-        label: "Reports & Analytics",
-        roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
-      },
-      {
-        key: "/settings",
-        icon: <SettingOutlined />,
-        label: "Settings",
-        roles: ["ADMINISTRATOR"],
-      },
-    ];
-    return all
-      .filter((i) => i.roles.includes(currentUser.role))
-      .map(({ key, icon, label }) => ({ key, icon, label }));
+    ],
+  },
+  {
+    key: "/reports-analytics",
+    label: "Reports & Analytics",
+    icon: <BarChartOutlined />,
+    roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
+  },
+];
+
+const settingsItem: NavItem = {
+  key: "/settings",
+  label: "Settings",
+  icon: <SettingOutlined />,
+  roles: ["ADMINISTRATOR"],
+};
+
+function Shell() {
+  const [collapsed, setCollapsed] = useState(false);
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
+    "credit-monitoring": true,
+    requests: true,
+  });
+
+  const { currentUser, users, setCurrentUser } = useApp();
+  const location = useLocation();
+
+  const items = useMemo<NavItem[]>(() => {
+    if (!currentUser) return [];
+
+    return navItems
+      .map((item) => ({
+        ...item,
+        children: item.children?.filter((child) =>
+          child.roles.includes(currentUser.role),
+        ),
+      }))
+      .filter(
+        (item) =>
+          item.roles.includes(currentUser.role) ||
+          Boolean(item.children?.length),
+      );
   }, [currentUser]);
+
+  const canSeeSettings = Boolean(
+    currentUser && settingsItem.roles.includes(currentUser.role),
+  );
+
+  const flattenedItems = useMemo(
+    () =>
+      items.flatMap((item) => [
+        item,
+        ...(item.children?.length ? item.children : []),
+      ]),
+    [items],
+  );
+
   useEffect(() => {
     if (!currentUser) return;
-    const allowed = items?.some(
-      (i) =>
-        i &&
-        "key" in i &&
-        typeof i.key === "string" &&
-        location.pathname.startsWith(i.key),
+
+    const availableItems = [
+      ...flattenedItems,
+      ...(canSeeSettings ? [settingsItem] : []),
+    ];
+
+    const allowed = availableItems.some(
+      (item) =>
+        item.key.startsWith("/") &&
+        location.pathname.startsWith(item.key),
     );
-    const editor =
+
+    const requestEditor =
       location.pathname.startsWith("/requests/") &&
       ["SALES_OPERATION", "ADMINISTRATOR"].includes(currentUser.role);
-    const reviewDetail = location.pathname.startsWith("/pending-approval/");
+
+    const reviewDetail =
+      location.pathname.startsWith("/pending-approval/");
+
     if (
       !allowed &&
-      !editor &&
+      !requestEditor &&
       !reviewDetail &&
-      !["/403", "/"].includes(location.pathname)
-    )
+      !["/", "/403"].includes(location.pathname)
+    ) {
       history.replace("/403");
-  }, [currentUser, items, location.pathname]);
-  if (!currentUser)
+    }
+  }, [
+    currentUser,
+    flattenedItems,
+    canSeeSettings,
+    location.pathname,
+  ]);
+
+  if (!currentUser) {
     return (
       <div className={styles.loading}>
         <Spin size="large" />
       </div>
     );
-  const selected =
-    items
-      ?.filter(
-        (i) =>
-          i &&
-          "key" in i &&
-          typeof i.key === "string" &&
-          location.pathname.startsWith(i.key),
-      )
-      .map((i) => String(i!.key)) ?? [];
+  }
+
+  const isSelected = (key: string) =>
+    key.startsWith("/") && location.pathname.startsWith(key);
+
+  const renderNavItem = (item: NavItem, isChild = false) => {
+    const hasChildren = Boolean(item.children?.length);
+    const isOpen = openGroups[item.key] ?? false;
+    const isItemSelected = isSelected(item.key);
+    const hasSelectedChild = Boolean(
+      item.children?.some((child) => isSelected(child.key)),
+    );
+
+    const itemClasses = [
+      styles.navItem,
+      isChild ? styles.navChild : "",
+      isItemSelected ? styles.navItemActive : "",
+      !isChild && hasSelectedChild ? styles.navParentActive : "",
+      !isChild && hasChildren && isOpen ? styles.navParentOpen : "",
+    ]
+      .filter(Boolean)
+      .join(" ");
+
+    return (
+      <div key={item.key} className={styles.navGroup}>
+        <button
+          type="button"
+          className={itemClasses}
+          title={collapsed ? item.label : undefined}
+          aria-expanded={hasChildren ? isOpen : undefined}
+          onClick={() => {
+            if (hasChildren) {
+              setOpenGroups((previous) => ({
+                ...previous,
+                [item.key]: !isOpen,
+              }));
+              return;
+            }
+
+            if (item.key.startsWith("/")) {
+              history.push(item.key);
+            }
+          }}
+        >
+          {item.icon && (
+            <span className={styles.navIcon}>{item.icon}</span>
+          )}
+
+          <span className={styles.navLabel}>{item.label}</span>
+
+          {item.badge !== undefined && (
+            <span className={styles.navBadge}>{item.badge}</span>
+          )}
+
+          {hasChildren && !collapsed && (
+            <DownOutlined
+              className={`${styles.navArrow} ${
+                isOpen ? styles.navArrowOpen : ""
+              }`}
+            />
+          )}
+        </button>
+
+        {hasChildren && isOpen && !collapsed && (
+          <div className={styles.navChildren}>
+            {item.children!.map((child) =>
+              renderNavItem(child, true),
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <Layout className={styles.shell}>
       <Layout.Header className={styles.header}>
@@ -164,70 +276,83 @@ function Shell() {
           alt="SAP logo"
           className={styles.sapLogo}
         />
+
         <div className={styles.brand}>
           <Typography.Text strong className={styles.brandName}>
             COD Temporary Credit
           </Typography.Text>
         </div>
+
         <Input
           className={styles.search}
           prefix={<SearchOutlined />}
           placeholder="Search menu or transaction…"
         />
+
         <div className={styles.profile}>
           <Badge count={7} size="small">
             <BellOutlined className={styles.bell} />
           </Badge>
+
           <Avatar>{currentUser.initials}</Avatar>
+
           <Select
             variant="borderless"
             value={currentUser.id}
             popupMatchSelectWidth={310}
             onChange={(id) => {
-              const user = users.find((u) => u.id === id);
-              if (user) {
-                setCurrentUser(user);
-                history.push("/overview");
-              }
+              const selectedUser = users.find((user) => user.id === id);
+              if (!selectedUser) return;
+
+              setCurrentUser(selectedUser);
+              history.push("/overview");
             }}
-            options={users.map((u) => ({
-              value: u.id,
-              label: `${u.name} · ${roleLabel[u.role]}`,
+            options={users.map((user) => ({
+              value: user.id,
+              label: `${user.name} · ${roleLabel[user.role]}`,
             }))}
           />
         </div>
       </Layout.Header>
+
       <Layout>
         <Layout.Sider
-          width={216}
+          width={248}
           collapsedWidth={68}
           collapsed={collapsed}
           theme="light"
           className={styles.sider}
         >
-          <Menu
-            mode="inline"
-            selectedKeys={selected}
-            items={items}
-            onClick={({ key }) => history.push(key)}
-            className={styles.menu}
-          />
+          <nav className={styles.menu}>
+            {items.map((item) => renderNavItem(item))}
+          </nav>
+
+          {canSeeSettings && (
+            <div className={styles.settingsSlot}>
+              {renderNavItem(settingsItem)}
+            </div>
+          )}
+
           <button
             type="button"
             className={styles.collapse}
-            onClick={() => setCollapsed((v) => !v)}
+            onClick={() => setCollapsed((value) => !value)}
           >
             {collapsed ? (
               <MenuUnfoldOutlined />
             ) : (
               <>
-                <MenuFoldOutlined /> Collapse
+                <MenuFoldOutlined />
+                <span>Collapse</span>
               </>
             )}
           </button>
         </Layout.Sider>
+
         <Layout.Content
-          className={`${styles.content} ${collapsed ? styles.contentCollapsed : ""}`}
+          className={`${styles.content} ${
+            collapsed ? styles.contentCollapsed : ""
+          }`}
         >
           <Outlet />
         </Layout.Content>
@@ -235,6 +360,7 @@ function Shell() {
     </Layout>
   );
 }
+
 export default function MainLayout() {
   return (
     <AppProvider>

@@ -58,7 +58,7 @@ export default function PendingApproval() {
       <div className="pageHeader">
         <div>
           <Typography.Title level={2} className="pageTitle">
-            Pending Approval
+            Approval Queue
           </Typography.Title>
           <div className="pageSubtitle">
             Review and take action on temporary credit requests.

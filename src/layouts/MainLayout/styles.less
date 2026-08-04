@@ -1,31 +1,34 @@
-.shell{min-height:100vh}
-.header{position:fixed;z-index:20;top:0;left:0;right:0;height:64px;padding:0 20px;display:flex;align-items:center;background:#fff;border-bottom:1px solid #e8ebf0}
-.brand{width:330px;display:flex;align-items:center;gap:12px;white-space:nowrap}
-.mark{width:43px;height:34px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#0878ef 55%,#0058ba 55%);font-weight:800;border-radius:5px 10px 5px 5px}
-.search{width:min(420px,38vw)}
-.profile{margin-left:auto;display:flex;align-items:center;gap:14px}
-.bell{font-size:20px}.sider{position:fixed!important;top:64px;bottom:0;z-index:10;border-right:1px solid #e8ebf0}
-.menu{border-inline-end:0!important;padding:14px 8px}
-.collapse{position:absolute;left:16px;bottom:18px;border:0;background:transparent;padding:8px;cursor:pointer;display:flex;gap:10px;font-weight:600}
-.content{margin:64px 0 0 216px;min-height:calc(100vh - 64px);padding:26px 28px;transition:margin .2s}
-.contentCollapsed{margin-left:68px}.loading{min-height:100vh;display:grid;place-items:center}@media(max-width:800px){.brand{width:auto}
-.brandName{display:none}.search{margin-left:18px}
-.profile :global(.ant-select){max-width:140px}
-.content{padding:18px}}
+.shell {
+  min-height: 100vh;
+}
+
+.header {
+  position: fixed;
+  z-index: 20;
+  inset: 0 0 auto;
+  height: 64px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sapLogo {
+  width: 72px;
+  height: 36px;
+  display: block;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .brand {
   width: 320px;
   display: flex;
   align-items: center;
-  gap: 12px;
   flex-shrink: 0;
-}
-
-.sapLogo {
-  display: block;
-  width: 72px;
-  height: 36px;
-  object-fit: contain;
-  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .brandName {
@@ -33,10 +36,281 @@
   white-space: nowrap;
 }
 
-.header {
-  height: 64px;
-  padding: 0 24px;
+.search {
+  width: min(420px, 38vw);
+}
+
+.profile {
+  margin-left: auto;
   display: flex;
   align-items: center;
+  gap: 14px;
+}
+
+.bell {
+  color: #344054;
+  font-size: 20px;
+}
+
+.sider {
+  position: fixed !important;
+  z-index: 10;
+  top: 64px;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff !important;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 4px 0 16px rgba(15, 23, 42, 0.03);
+}
+
+.menu {
+  flex: 1;
+  padding: 16px 12px 130px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.navGroup {
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.navItem {
+  position: relative;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #344054;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  font: 600 14px/1.2 inherit;
+  transition:
+    color 0.16s ease,
+    background 0.16s ease;
+}
+
+.navItem:hover {
+  color: #0064d9;
+  background: #f4f8fc;
+}
+
+.navIcon {
+  width: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #667085;
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.navLabel {
+  min-width: 0;
+  flex: 1;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.navBadge {
+  min-width: 25px;
+  height: 22px;
+  padding: 0 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0064d9;
+  background: #eaf3fc;
+  border-radius: 11px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.navArrow {
+  margin-left: 2px;
+  color: #667085;
+  font-size: 11px;
+  transform: rotate(-90deg);
+  transition: transform 0.18s ease;
+}
+
+.navArrowOpen {
+  transform: rotate(0deg);
+}
+
+/* Parent remains subtle when expanded or when a child is selected */
+.navParentOpen,
+.navParentActive {
+  color: #0064d9;
+  background: #f5f9fd;
+}
+
+.navParentOpen .navIcon,
+.navParentActive .navIcon {
+  color: #0064d9;
+}
+
+/* Compact and connected dropdown */
+.navChildren {
+  position: relative;
+  margin: 2px 0 6px;
+  padding: 2px 0 2px 34px;
+}
+
+.navChildren::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 23px;
+  width: 1px;
+  background: #e1e7ef;
+}
+
+.navChild {
+  min-height: 38px;
+  padding: 0 12px 0 16px;
+  color: #475467;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.navChild:hover {
+  color: #0064d9;
+  background: #f7faff;
+}
+
+/* Strong active state belongs to the actual selected page */
+.navItemActive {
+  color: #0064d9;
+  background: #eaf3fc;
+  font-weight: 600;
+}
+
+.navItemActive::before {
+  content: "";
+  position: absolute;
+  top: 7px;
+  bottom: 7px;
+  left: 0;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: #0064d9;
+}
+
+.navItemActive .navIcon {
+  color: #0064d9;
+}
+
+.settingsSlot {
+  position: absolute;
+  right: 12px;
+  bottom: 60px;
+  left: 12px;
+  padding-top: 10px;
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+}
+
+.collapse {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  height: 40px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #667085;
+  background: #fff;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.collapse:hover {
+  color: #0064d9;
+  background: #f4f8fc;
+}
+
+.content {
+  min-height: calc(100vh - 64px);
+  margin: 64px 0 0 248px;
+  padding: 26px 28px;
+  transition: margin 0.2s ease;
+}
+
+.contentCollapsed {
+  margin-left: 68px;
+}
+
+.loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+:global(.ant-layout-sider-collapsed) {
+  .menu {
+    padding-inline: 8px;
+  }
+
+  .navItem {
+    justify-content: center;
+    padding-inline: 0;
+    gap: 0;
+  }
+
+  .navLabel,
+  .navBadge,
+  .navArrow,
+  .navChildren,
+  .settingsSlot {
+    display: none;
+  }
+
+  .collapse {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .collapse span:not(:first-child) {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .brand {
+    width: auto;
+  }
+
+  .brandName {
+    display: none;
+  }
+
+  .search {
+    margin-left: 18px;
+  }
+
+  .profile {
+    gap: 8px;
+  }
+
+  .profile :global(.ant-select) {
+    max-width: 140px;
+  }
+
+  .content {
+    padding: 18px;
+  }
 }
