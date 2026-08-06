@@ -30,5 +30,13 @@ export function effectiveStatus(request: TemporaryCreditRequest): RequestStatus 
   if (due.isBefore(today)) return 'OVERDUE';
   return request.status === 'APPROVED' ? 'APPROVED' : 'ACTIVE';
 }
+export const requestExposure = (request: TemporaryCreditRequest) =>
+  !request.settledAt && ['APPROVED', 'ACTIVE', 'DUE_TODAY', 'OVERDUE'].includes(request.status)
+    ? request.requestedAmount
+    : 0;
+
+export const overdueExposure = (request: TemporaryCreditRequest) =>
+  effectiveStatus(request) === 'OVERDUE' ? requestExposure(request) : 0;
+
 export const daysOverdue = (request: TemporaryCreditRequest) =>
   effectiveStatus(request) === 'OVERDUE' ? dayjs().tz(APP_TIMEZONE).startOf('day').diff(dayjs.tz(request.promisedPaymentDate, APP_TIMEZONE).startOf('day'), 'day') : 0;
