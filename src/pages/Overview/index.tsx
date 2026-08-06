@@ -159,8 +159,7 @@ export default function Overview() {
           // helper="Across pending requests"
           color="#169b62"
         />
-
-        <KpiCard
+                <KpiCard
           title="Approved Today"
           value={approvedToday}
           prefix={
@@ -194,7 +193,7 @@ export default function Overview() {
         }
       >
         <RequestTable
-          requests={filtered.slice(0, 5)}
+          requests={filtered}
           customers={customers}
           loading={loading}
           review

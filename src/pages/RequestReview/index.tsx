@@ -36,10 +36,12 @@ import { formatDate, formatMoney } from "@/utils/format";
 type ModalType = "APPROVE" | "REJECT" | "MORE_INFO";
 
 const getRiskScoreColor = (score: number) => {
-  if (score >= 70) return "#ef4444";
-  if (score >= 40) return "#f59e0b";
-  return "#22c55e";
+  if (score >= 75) return '#7b1fa2'; // Critical: purple
+  if (score >= 50) return '#d32f2f'; // High: red
+  if (score >= 25) return '#e9730c'; // Medium: orange
+  return '#188918'; // Low: green
 };
+
 
 export default function RequestReview() {
   const { requestId = "" } = useParams<{ requestId: string }>();
@@ -282,7 +284,10 @@ export default function RequestReview() {
         />
       )} */}
 
-      <div className="twoColumn">
+      <div
+        className="twoColumn"
+        style={{ gridTemplateColumns: "minmax(0, 1.65fr) minmax(440px, 1fr)" }}
+      >
         <div className="stack">
           <Card title="Decision Summary" className="surface">
             <div className="decisionSummary">
@@ -461,65 +466,106 @@ export default function RequestReview() {
             title="Customer Risk Snapshot"
             extra={<RiskBadge risk={customer.riskLevel} />}
             className="surface"
+            styles={{ body: { padding: 0 } }}
           >
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "130px 1fr",
+                gridTemplateColumns: "132px minmax(0, 1fr)",
                 alignItems: "center",
-                gap: 20,
+                gap: 24,
+                padding: "24px",
               }}
             >
               <Progress
                 type="circle"
-                size={116}
+                size={124}
                 percent={customer.riskScore}
                 strokeColor={getRiskScoreColor(customer.riskScore)}
-                trailColor="#f0f0f0"
+                trailColor="#eef1f4"
                 strokeLinecap="round"
+                strokeWidth={8}
                 format={() => (
                   <div>
                     <div
                       style={{
                         color: getRiskScoreColor(customer.riskScore),
-                        fontSize: 25,
-                        fontWeight: 700,
+                        fontSize: 30,
+                        fontWeight: 750,
+                        lineHeight: 1.1,
                       }}
                     >
                       {customer.riskScore}
                     </div>
-                    <div style={{ color: "#64748b", fontSize: 11 }}>
-                      Risk Score
+                    <div style={{ color: "#64748b", fontSize: 12, marginTop: 3 }}>
+                      Risk score
                     </div>
                   </div>
                 )}
               />
 
-              <div>
-                <p>
-                  <strong>Outstanding Balance:</strong>{" "}
-                  {formatMoney(customer.outstandingBalance)}
-                </p>
-                <p>
-                  <strong>Overdue Amount:</strong>{" "}
-                  {formatMoney(customer.overdueAmount)}
-                </p>
-                <p>
-                  <strong>Overdue Invoices:</strong> {customer.overdueInvoices}
-                </p>
-                <p>
-                  <strong>Credit Utilisation:</strong>{" "}
-                  {customer.creditUtilisation}%
-                </p>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+                  gap: 12,
+                }}
+              >
+                {[
+                  ["Outstanding balance", formatMoney(customer.outstandingBalance)],
+                  ["Overdue amount", formatMoney(customer.overdueAmount)],
+                  ["Overdue invoices", customer.overdueInvoices],
+                  ["Credit utilization", `${customer.creditUtilisation}%`],
+                ].map(([label, value]) => (
+                  <div
+                    key={String(label)}
+                    style={{
+                      minWidth: 0,
+                      padding: "12px 14px",
+                      border: "1px solid #e6eaf0",
+                      borderRadius: 8,
+                      background: "#fafbfc",
+                    }}
+                  >
+                    <Typography.Text
+                      type="secondary"
+                      style={{ display: "block", fontSize: 12, lineHeight: 1.35 }}
+                    >
+                      {label}
+                    </Typography.Text>
+                    <Typography.Text
+                      strong
+                      style={{
+                        display: "block",
+                        marginTop: 4,
+                        color: "#1f2937",
+                        fontSize: 17,
+                        lineHeight: 1.3,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {value}
+                    </Typography.Text>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <Button
-              type="link"
-              onClick={() => history.push(`/customer-risk/${customer.id}`)}
+            <div
+              style={{
+                padding: "12px 24px",
+                borderTop: "1px solid #eef1f4",
+                background: "#fafbfc",
+              }}
             >
-              View full customer risk dashboard
-            </Button>
+              <Button
+                type="link"
+                style={{ height: "auto", padding: 0, fontWeight: 500 }}
+                onClick={() => history.push(`/customer-risk/${customer.id}`)}
+              >
+                View full customer risk dashboard →
+              </Button>
+            </div>
           </Card>
 
           <Card title="Approval History" className="surface">

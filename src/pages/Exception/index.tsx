@@ -8,7 +8,8 @@ export default function Exception({ type = "404" }: { type?: "403" | "404" }) {
       title={type}
       subTitle={
         type === "403"
-          ? "You are not authorized to access this page."
+          ? "You don't have permission to access this page."
+          
           : "Page not found."
       }
       extra={

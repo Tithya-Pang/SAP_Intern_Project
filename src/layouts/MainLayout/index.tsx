@@ -282,12 +282,12 @@ function Shell() {
             COD Temporary Credit
           </Typography.Text>
         </div>
-
+{/* 
         <Input
           className={styles.search}
           prefix={<SearchOutlined />}
           placeholder="Search menu or transaction…"
-        />
+        /> */}
 
         <div className={styles.profile}>
           <Badge count={7} size="small">
