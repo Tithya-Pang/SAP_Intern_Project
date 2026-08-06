@@ -194,7 +194,7 @@ export default function Overview() {
         }
       >
         <RequestTable
-          requests={filtered.slice(0, 5)}
+          requests={filtered}
           customers={customers}
           loading={loading}
           review

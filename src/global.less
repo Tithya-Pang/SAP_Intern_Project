@@ -85,9 +85,23 @@ a {
 }
 .analyticsGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr) minmax(0, 1fr);
   gap: 14px;
   align-items: start;
+}
+.analyticsTopRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+.analyticsBottomRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+.analyticsProvinceCard {
+  width: 100%;
 }
 .analyticsGrid > *,
 .kpiGrid > *,
@@ -135,22 +149,28 @@ a {
 }
 .dashboardTrend {
   display: grid;
-  gap: 8px;
+  gap: 2px;
   min-width: 0;
+  padding-right: 2px;
 }
 .trendSvg {
   width: 100%;
-  height: 220px;
+  max-width: 500px;
+  height: 140px;
   min-width: 0;
-  background: linear-gradient(180deg, #ffffff, #f8fafc);
+  background: #fff;
   border-radius: 8px;
+  margin: 0 auto;
 }
 .chartLabels {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 8px;
+  gap: 6px;
   font-size: 12px;
   color: #667085;
+}
+.chartLabelsCompact {
+  margin-top: -2px;
 }
 .donutWrap {
   display: grid;
@@ -216,8 +236,106 @@ a {
   gap: 12px;
   font-size: 14px;
 }
+.topOverdueCard .ant-card-body {
+  padding: 8px 16px 10px;
+}
+.topOverdueTable {
+  width: 100%;
+  min-width: 0;
+  color: #172033;
+  font-size: 13px;
+}
+.topOverdueTableHeader,
+.topOverdueTableRow {
+  display: grid;
+  grid-template-columns: minmax(120px, 1.6fr) minmax(76px, 0.65fr) minmax(94px, 0.85fr) minmax(82px, 0.75fr);
+  gap: 10px;
+  align-items: center;
+}
+.topOverdueTableHeader {
+  min-height: 34px;
+  color: #55657a;
+  font-size: 12px;
+  font-weight: 600;
+  border-bottom: 1px solid #d9e0e8;
+}
+.topOverdueTableRow {
+  min-height: 42px;
+  border-bottom: 1px solid #edf0f3;
+}
+.topOverdueTableRow:last-child {
+  border-bottom: 0;
+}
+.topOverdueTableHeader > :nth-child(2),
+.topOverdueDays {
+  text-align: center;
+}
+.topOverdueTableHeader > :last-child,
+.topOverdueAmount {
+  text-align: right;
+}
+.topOverdueCustomerName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.topOverdueAmount {
+  color: #172033;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.topOverdueDays {
+  color: #172033;
+  font-variant-numeric: tabular-nums;
+}
+.topOverdueFooter {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 9px;
+  border-top: 1px solid #edf0f3;
+  font-size: 13px;
+}
+.topOverdueFooter a {
+  color: #0a6ed1;
+  font-weight: 600;
+}
+.reportRiskBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 1px 8px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  white-space: nowrap;
+}
+.reportRiskBadge--low {
+  color: #256f3a;
+  background: #f1fdf5;
+  border-color: #a8d5b4;
+}
+.reportRiskBadge--medium {
+  color: #8d4f00;
+  background: #fff8e6;
+  border-color: #e8c878;
+}
+.reportRiskBadge--high {
+  color: #aa0808;
+  background: #fff1f0;
+  border-color: #efb2ad;
+}
+.reportRiskBadge--critical {
+  color: #6c2a8a;
+  background: #f8f0fc;
+  border-color: #c9a7d8;
+}
 .tableCardWrap {
   margin-top: 14px;
+  scroll-margin-top: 16px;
 }
 .tableTextEllipsis {
   display: inline-block;
@@ -263,7 +381,12 @@ a {
   .kpiGrid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .analyticsGrid,
+  .analyticsTopRow {
+    grid-template-columns: 1fr;
+  }
+  .analyticsBottomRow {
+    grid-template-columns: 1fr;
+  }
   .twoColumn {
     grid-template-columns: 1fr;
   }
@@ -290,5 +413,15 @@ a {
   }
   .tableTextEllipsis {
     max-width: 160px;
+  }
+  .topOverdueTableHeader,
+  .topOverdueTableRow {
+    grid-template-columns: minmax(100px, 1.4fr) 64px minmax(88px, 0.85fr) 78px;
+    gap: 7px;
+    font-size: 12px;
+  }
+  .reportRiskBadge {
+    padding-inline: 6px;
+    font-size: 11px;
   }
 }
