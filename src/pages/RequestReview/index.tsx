@@ -36,10 +36,10 @@ import { formatDate, formatMoney } from "@/utils/format";
 type ModalType = "APPROVE" | "REJECT" | "MORE_INFO";
 
 const getRiskScoreColor = (score: number) => {
-  if (score >= 85) return "#d32f2f"; // Critical
-  if (score >= 60) return "#e9730c"; // High
-  if (score >= 35) return "#e5a100"; // Medium
-  return "#188918"; // Low: green
+  if (score >= 85) return '#d32f2f'; // Critical
+  if (score >= 60) return '#e9730c'; // High
+  if (score >= 35) return '#e5a100'; // Medium
+  return '#188918'; // Low: green
 };
 
 export default function RequestReview() {
@@ -406,7 +406,7 @@ export default function RequestReview() {
               </div>
             </div>
           </Card>
-
+    
           <Card title="Temporary Credit Request History" className="surface">
             <Table<PaymentRecord>
               rowKey="id"

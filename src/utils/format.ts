@@ -49,25 +49,15 @@ export const statusColors: Record<RequestStatus, string> = {
   SETTLED: "green",
   CANCELLED: "default",
 };
-export const riskColors: Record<RiskLevel, string> = {
-  LOW: "green",
-  MEDIUM: "orange",
-  HIGH: "red",
-  CRITICAL: "purple",
-};
-export function effectiveStatus(
-  request: TemporaryCreditRequest,
-): RequestStatus {
-  if (request.settledAt || request.status === "SETTLED") return "SETTLED";
-  if (!["APPROVED", "ACTIVE", "DUE_TODAY", "OVERDUE"].includes(request.status))
-    return request.status;
-  const due = dayjs
-    .tz(request.promisedPaymentDate, APP_TIMEZONE)
-    .startOf("day");
-  const today = dayjs().tz(APP_TIMEZONE).startOf("day");
-  if (due.isSame(today)) return "DUE_TODAY";
-  if (due.isBefore(today)) return "OVERDUE";
-  return request.status === "APPROVED" ? "APPROVED" : "ACTIVE";
+export const riskColors: Record<RiskLevel, string> = { LOW:'green', MEDIUM:'yellow', HIGH:'orange', CRITICAL:'red' };
+export function effectiveStatus(request: TemporaryCreditRequest): RequestStatus {
+  if (request.settledAt || request.status === 'SETTLED') return 'SETTLED';
+  if (!['APPROVED','ACTIVE','DUE_TODAY','OVERDUE'].includes(request.status)) return request.status;
+  const due = dayjs.tz(request.promisedPaymentDate, APP_TIMEZONE).startOf('day');
+  const today = dayjs().tz(APP_TIMEZONE).startOf('day');
+  if (due.isSame(today)) return 'DUE_TODAY';
+  if (due.isBefore(today)) return 'OVERDUE';
+  return request.status === 'APPROVED' ? 'APPROVED' : 'ACTIVE';
 }
 export const requestExposure = (request: TemporaryCreditRequest) =>
   !request.settledAt &&
