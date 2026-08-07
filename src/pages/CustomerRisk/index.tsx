@@ -1,24 +1,23 @@
-import { Button, Card, Progress, Table, Tag, Typography } from 'antd';
-import { history, useParams } from '@umijs/max';
-import { useEffect, useState } from 'react';
+import { Button, Card, Progress, Table, Tag, Typography } from "antd";
+import { history, useParams } from "@umijs/max";
+import { useEffect, useState } from "react";
 import type {
   Customer,
   PaymentRecord,
   TemporaryCreditRequest,
-} from '@/types/domain';
-import { temporaryCreditService } from '@/services/temporaryCreditService';
-import { useCreditData } from '@/hooks/useCreditData';
-import { CustomerCell } from '@/components/CustomerCell';
-import { RiskBadge } from '@/components/Badges';
-import { formatDate, formatMoney } from '@/utils/format';
+} from "@/types/domain";
+import { temporaryCreditService } from "@/services/temporaryCreditService";
+import { useCreditData } from "@/hooks/useCreditData";
+import { CustomerCell } from "@/components/CustomerCell";
+import { RiskBadge } from "@/components/Badges";
+import { formatDate, formatMoney } from "@/utils/format";
 
 const getRiskColor = (score: number) => {
-  if (score >= 85) return '#d32f2f';
-  if (score >= 60) return '#e9730c';
-  if (score >= 35) return '#e5a100';
-  return '#188918';
+  if (score >= 85) return "#d32f2f";
+  if (score >= 60) return "#e9730c";
+  if (score >= 35) return "#e5a100";
+  return "#188918";
 };
-
 
 const pageStyles = `
   .customer-risk-page .back-button {
@@ -183,7 +182,7 @@ export default function CustomerRisk() {
         <Button
           type="link"
           className="back-button"
-          onClick={() => history.push('/customer-risk')}
+          onClick={() => history.push("/customer-risk")}
         >
           ← Back to Customer Risk
         </Button>
@@ -200,10 +199,7 @@ export default function CustomerRisk() {
           </div>
         </div>
 
-        <Card
-          title="Customer Risk Snapshot"
-          className="surface risk-snapshot"
-        >
+        <Card title="Customer Risk Snapshot" className="surface risk-snapshot">
           <div className="risk-snapshot-content">
             <div className="risk-score-section">
               <Progress
@@ -256,49 +252,57 @@ export default function CustomerRisk() {
         <Card title="Temporary Credit Payment History" className="surface">
           <Table<PaymentRecord & { promisedDate?: string }>
             rowKey="id"
-            dataSource={payments}
+            dataSource={payments.filter(
+              (item) => item.type === "TEMPORARY_CREDIT",
+            )}
             pagination={false}
             scroll={{ x: 900 }}
             columns={[
               {
-                title: 'Payment Date',
-                dataIndex: 'date',
+                title: "Payment Date",
+                dataIndex: "date",
                 width: 150,
                 render: (value: string) => formatDate(value),
               },
               {
-                title: 'Reference',
-                dataIndex: 'reference',
+                title: "Reference",
+                dataIndex: "reference",
                 width: 180,
+                render: (value: string) => {
+                  const number = value.replace(/\D/g, "");
+
+                  return `TCR-${new Date().getFullYear()}-${number}`;
+                },
               },
               {
-                title: 'Promised Date',
-                dataIndex: 'promisedDate',
+                title: "Promised Date",
+                dataIndex: "promisedDate",
                 width: 160,
-                render: (value?: string) => value ? formatDate(value) : '—',
+                render: (value?: string) => (value ? formatDate(value) : "—"),
               },
               {
-                title: 'Amount',
-                dataIndex: 'amount',
-                align: 'right',
+                title: "Amount",
+                dataIndex: "amount",
+                align: "right",
                 width: 160,
                 render: (value: number) => formatMoney(value),
               },
               {
-                title: 'Days Late',
-                dataIndex: 'daysLate',
-                align: 'center',
+                title: "Days Late",
+                dataIndex: "daysLate",
+                align: "center",
                 width: 130,
-                render: (value?: number) => value && value > 0 ? `${value} days` : '—',
+                render: (value?: number) =>
+                  value && value > 0 ? `${value} days` : "—",
               },
               {
-                title: 'Result',
-                key: 'result',
+                title: "Result",
+                key: "result",
                 width: 140,
                 render: (_, record) => {
-                  const result = record.result?.toLowerCase() ?? '';
+                  const result = record.result?.toLowerCase() ?? "";
                   const isOverdue =
-                    result.includes('overdue') || result.includes('unpaid');
+                    result.includes("overdue") || result.includes("unpaid");
                   const isLate = (record.daysLate ?? 0) > 0;
 
                   if (isOverdue) return <Tag color="red">Unpaid/Overdue</Tag>;
@@ -338,23 +342,23 @@ export default function CustomerRisk() {
           scroll={{ x: 950 }}
           columns={[
             {
-              title: 'Customer',
+              title: "Customer",
               width: 220,
               render: (_, item) => <CustomerCell customer={item} />,
             },
             {
-              title: 'Business Unit',
-              dataIndex: 'businessUnit',
+              title: "Business Unit",
+              dataIndex: "businessUnit",
               width: 160,
             },
             {
-              title: 'Risk Level',
+              title: "Risk Level",
               width: 130,
               render: (_, item) => <RiskBadge risk={item.riskLevel} />,
             },
             {
-              title: 'Risk Score',
-              dataIndex: 'riskScore',
+              title: "Risk Score",
+              dataIndex: "riskScore",
               width: 180,
               render: (value: number) => (
                 <Progress
@@ -367,22 +371,22 @@ export default function CustomerRisk() {
               ),
             },
             {
-              title: 'Outstanding',
-              dataIndex: 'outstandingBalance',
-              align: 'right',
+              title: "Outstanding",
+              dataIndex: "outstandingBalance",
+              align: "right",
               width: 150,
               render: (value: number) => formatMoney(value),
             },
             {
-              title: 'Overdue',
-              dataIndex: 'overdueAmount',
-              align: 'right',
+              title: "Overdue",
+              dataIndex: "overdueAmount",
+              align: "right",
               width: 140,
               render: (value: number) => formatMoney(value),
             },
             {
-              title: 'Action',
-              align: 'center',
+              title: "Action",
+              align: "center",
               width: 90,
               render: (_, item) => (
                 <Button
