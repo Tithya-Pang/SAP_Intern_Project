@@ -61,7 +61,10 @@ const riskFilterOptions: Array<{ value: RiskLevel | "ALL"; label: string }> = [
   { value: "CRITICAL", label: "Critical" },
 ];
 
-const customerChannelOptions: Array<{ value: CustomerChannel | "ALL"; label: string }> = [
+const customerChannelOptions: Array<{
+  value: CustomerChannel | "ALL";
+  label: string;
+}> = [
   { value: "ALL", label: "All Customer Channels" },
   { value: "Distribution", label: "Distribution" },
   { value: "Modern Trade", label: "Modern Trade" },
@@ -72,206 +75,206 @@ const customerChannelOptions: Array<{ value: CustomerChannel | "ALL"; label: str
 ];
 
 const customerChannelMap: Record<string, CustomerChannel> = {
-  c1: 'Distribution',
-  c2: 'Grocery',
-  c3: 'Modern Trade',
-  c4: 'Distribution',
-  c5: 'Grocery',
-  c6: 'Modern Trade',
-  c7: 'Corporate',
-  c8: 'Distribution',
-  c9: 'Grocery',
-  c10: 'Corporate',
-  c11: 'Others',
-  c12: 'Distribution',
-  c13: 'Modern Trade',
-  c14: 'Modern Trade',
-  c15: 'HoReCa',
-  c16: 'Modern Trade',
-  c17: 'Modern Trade',
-  c18: 'Others',
-  c19: 'Grocery',
-  c20: 'Others',
-  c21: 'HoReCa',
-  c22: 'HoReCa',
-  c23: 'Distribution',
-  c24: 'Others',
-  c25: 'Grocery',
-  c26: 'Corporate',
-  c27: 'Corporate',
-  c28: 'HoReCa',
-  c29: 'Corporate',
-  c30: 'Modern Trade',
-  c31: 'Grocery',
-  c32: 'Corporate',
-  c33: 'Corporate',
-  c34: 'Corporate',
-  c35: 'Distribution',
-  c36: 'HoReCa',
-  c37: 'Others',
-  c38: 'Modern Trade',
-  c39: 'Modern Trade',
-  c40: 'Grocery',
-  c41: 'HoReCa',
-  c42: 'Modern Trade',
-  c43: 'Distribution',
-  c44: 'Distribution',
-  c45: 'Corporate',
-  c46: 'Others',
-  c47: 'Modern Trade',
-  c48: 'Grocery',
-  c49: 'Modern Trade',
-  c50: 'Distribution',
-  c51: 'Modern Trade',
-  c52: 'Distribution',
-  c53: 'Corporate',
-  c54: 'Grocery',
-  c55: 'Distribution',
-  c56: 'Corporate',
-  c57: 'Grocery',
-  c58: 'Modern Trade',
-  c59: 'Grocery',
-  c60: 'HoReCa',
-  c61: 'Corporate',
-  c62: 'Modern Trade',
-  c63: 'Corporate',
-  c64: 'HoReCa',
-  c65: 'HoReCa',
-  c66: 'Grocery',
-  c67: 'Modern Trade',
-  c68: 'Modern Trade',
-  c69: 'Distribution',
-  c70: 'Modern Trade',
-  c71: 'Distribution',
-  c72: 'Modern Trade',
-  c73: 'Modern Trade',
-  c74: 'Others',
-  c75: 'HoReCa',
-  c76: 'HoReCa',
-  c77: 'Others',
-  c78: 'Distribution',
-  c79: 'Distribution',
-  c80: 'Grocery',
-  c81: 'Grocery',
-  c82: 'HoReCa',
-  c83: 'Modern Trade',
-  c84: 'Grocery',
-  c85: 'Distribution',
-  c86: 'Grocery',
-  c87: 'Grocery',
-  c88: 'Grocery',
-  c89: 'Corporate',
-  c90: 'Others',
-  c91: 'Modern Trade',
-  c92: 'Distribution',
-  c93: 'Distribution',
-  c94: 'Modern Trade',
-  c95: 'Modern Trade',
-  c96: 'Grocery',
-  c97: 'Grocery',
-  c98: 'Corporate',
-  c99: 'Grocery',
-  c100: 'Grocery',
-  c101: 'Corporate',
-  c102: 'Grocery',
-  c103: 'HoReCa',
-  c104: 'Grocery',
-  c105: 'Distribution',
-  c106: 'Grocery',
-  c107: 'Distribution',
-  c108: 'Grocery',
-  c109: 'Modern Trade',
-  c110: 'Distribution',
-  c111: 'Distribution',
-  c112: 'Corporate',
-  c113: 'Corporate',
-  c114: 'Grocery',
-  c115: 'HoReCa',
-  c116: 'HoReCa',
-  c117: 'Distribution',
-  c118: 'Modern Trade',
-  c119: 'Others',
-  c120: 'Modern Trade',
-  c121: 'Modern Trade',
-  c122: 'Corporate',
-  c123: 'Modern Trade',
-  c124: 'Grocery',
-  c125: 'Modern Trade',
-  c126: 'Others',
-  c127: 'Modern Trade',
-  c128: 'Distribution',
-  c129: 'Distribution',
-  c130: 'Distribution',
-  c131: 'Others',
-  c132: 'Corporate',
-  c133: 'Distribution',
-  c134: 'Corporate',
-  c135: 'HoReCa',
-  c136: 'Others',
-  c137: 'Distribution',
-  c138: 'Distribution',
-  c139: 'Others',
-  c140: 'Grocery',
-  c141: 'Corporate',
-  c142: 'Grocery',
-  c143: 'Grocery',
-  c144: 'Modern Trade',
-  c145: 'Distribution',
-  c146: 'Distribution',
-  c147: 'Distribution',
-  c148: 'Modern Trade',
-  c149: 'Distribution',
-  c150: 'Corporate',
-  c151: 'Distribution',
-  c152: 'Grocery',
-  c153: 'Grocery',
-  c154: 'Grocery',
-  c155: 'Modern Trade',
-  c156: 'Corporate',
-  c157: 'Modern Trade',
-  c158: 'Grocery',
-  c159: 'Others',
-  c160: 'Modern Trade',
-  c161: 'Grocery',
-  c162: 'Grocery',
-  c163: 'Others',
-  c164: 'Others',
-  c165: 'Distribution',
-  c166: 'Modern Trade',
-  c167: 'Distribution',
-  c168: 'Corporate',
-  c169: 'Modern Trade',
-  c170: 'Grocery',
-  c171: 'Others',
-  c172: 'Others',
-  c173: 'Modern Trade',
-  c174: 'Modern Trade',
-  c175: 'Corporate',
-  c176: 'Modern Trade',
-  c177: 'Distribution',
-  c178: 'Distribution',
-  c179: 'Grocery',
-  c180: 'HoReCa',
-  c181: 'Grocery',
-  c182: 'Corporate',
-  c183: 'HoReCa',
-  c184: 'Grocery',
-  c185: 'Distribution',
-  c186: 'Grocery',
-  c187: 'Modern Trade',
-  c188: 'Distribution',
-  c189: 'Modern Trade',
-  c190: 'Modern Trade',
-  c191: 'Modern Trade',
-  c192: 'HoReCa',
-  c193: 'Distribution',
-  c194: 'Others',
-  c195: 'Distribution',
-  c196: 'HoReCa',
-  c197: 'Grocery',
-  c198: 'Others',
-  c199: 'Distribution',
-  c200: 'Modern Trade',
+  c1: "Distribution",
+  c2: "Grocery",
+  c3: "Modern Trade",
+  c4: "Distribution",
+  c5: "Grocery",
+  c6: "Modern Trade",
+  c7: "Corporate",
+  c8: "Distribution",
+  c9: "Grocery",
+  c10: "Corporate",
+  c11: "Others",
+  c12: "Distribution",
+  c13: "Modern Trade",
+  c14: "Modern Trade",
+  c15: "HoReCa",
+  c16: "Modern Trade",
+  c17: "Modern Trade",
+  c18: "Others",
+  c19: "Grocery",
+  c20: "Others",
+  c21: "HoReCa",
+  c22: "HoReCa",
+  c23: "Distribution",
+  c24: "Others",
+  c25: "Grocery",
+  c26: "Corporate",
+  c27: "Corporate",
+  c28: "HoReCa",
+  c29: "Corporate",
+  c30: "Modern Trade",
+  c31: "Grocery",
+  c32: "Corporate",
+  c33: "Corporate",
+  c34: "Corporate",
+  c35: "Distribution",
+  c36: "HoReCa",
+  c37: "Others",
+  c38: "Modern Trade",
+  c39: "Modern Trade",
+  c40: "Grocery",
+  c41: "HoReCa",
+  c42: "Modern Trade",
+  c43: "Distribution",
+  c44: "Distribution",
+  c45: "Corporate",
+  c46: "Others",
+  c47: "Modern Trade",
+  c48: "Grocery",
+  c49: "Modern Trade",
+  c50: "Distribution",
+  c51: "Modern Trade",
+  c52: "Distribution",
+  c53: "Corporate",
+  c54: "Grocery",
+  c55: "Distribution",
+  c56: "Corporate",
+  c57: "Grocery",
+  c58: "Modern Trade",
+  c59: "Grocery",
+  c60: "HoReCa",
+  c61: "Corporate",
+  c62: "Modern Trade",
+  c63: "Corporate",
+  c64: "HoReCa",
+  c65: "HoReCa",
+  c66: "Grocery",
+  c67: "Modern Trade",
+  c68: "Modern Trade",
+  c69: "Distribution",
+  c70: "Modern Trade",
+  c71: "Distribution",
+  c72: "Modern Trade",
+  c73: "Modern Trade",
+  c74: "Others",
+  c75: "HoReCa",
+  c76: "HoReCa",
+  c77: "Others",
+  c78: "Distribution",
+  c79: "Distribution",
+  c80: "Grocery",
+  c81: "Grocery",
+  c82: "HoReCa",
+  c83: "Modern Trade",
+  c84: "Grocery",
+  c85: "Distribution",
+  c86: "Grocery",
+  c87: "Grocery",
+  c88: "Grocery",
+  c89: "Corporate",
+  c90: "Others",
+  c91: "Modern Trade",
+  c92: "Distribution",
+  c93: "Distribution",
+  c94: "Modern Trade",
+  c95: "Modern Trade",
+  c96: "Grocery",
+  c97: "Grocery",
+  c98: "Corporate",
+  c99: "Grocery",
+  c100: "Grocery",
+  c101: "Corporate",
+  c102: "Grocery",
+  c103: "HoReCa",
+  c104: "Grocery",
+  c105: "Distribution",
+  c106: "Grocery",
+  c107: "Distribution",
+  c108: "Grocery",
+  c109: "Modern Trade",
+  c110: "Distribution",
+  c111: "Distribution",
+  c112: "Corporate",
+  c113: "Corporate",
+  c114: "Grocery",
+  c115: "HoReCa",
+  c116: "HoReCa",
+  c117: "Distribution",
+  c118: "Modern Trade",
+  c119: "Others",
+  c120: "Modern Trade",
+  c121: "Modern Trade",
+  c122: "Corporate",
+  c123: "Modern Trade",
+  c124: "Grocery",
+  c125: "Modern Trade",
+  c126: "Others",
+  c127: "Modern Trade",
+  c128: "Distribution",
+  c129: "Distribution",
+  c130: "Distribution",
+  c131: "Others",
+  c132: "Corporate",
+  c133: "Distribution",
+  c134: "Corporate",
+  c135: "HoReCa",
+  c136: "Others",
+  c137: "Distribution",
+  c138: "Distribution",
+  c139: "Others",
+  c140: "Grocery",
+  c141: "Corporate",
+  c142: "Grocery",
+  c143: "Grocery",
+  c144: "Modern Trade",
+  c145: "Distribution",
+  c146: "Distribution",
+  c147: "Distribution",
+  c148: "Modern Trade",
+  c149: "Distribution",
+  c150: "Corporate",
+  c151: "Distribution",
+  c152: "Grocery",
+  c153: "Grocery",
+  c154: "Grocery",
+  c155: "Modern Trade",
+  c156: "Corporate",
+  c157: "Modern Trade",
+  c158: "Grocery",
+  c159: "Others",
+  c160: "Modern Trade",
+  c161: "Grocery",
+  c162: "Grocery",
+  c163: "Others",
+  c164: "Others",
+  c165: "Distribution",
+  c166: "Modern Trade",
+  c167: "Distribution",
+  c168: "Corporate",
+  c169: "Modern Trade",
+  c170: "Grocery",
+  c171: "Others",
+  c172: "Others",
+  c173: "Modern Trade",
+  c174: "Modern Trade",
+  c175: "Corporate",
+  c176: "Modern Trade",
+  c177: "Distribution",
+  c178: "Distribution",
+  c179: "Grocery",
+  c180: "HoReCa",
+  c181: "Grocery",
+  c182: "Corporate",
+  c183: "HoReCa",
+  c184: "Grocery",
+  c185: "Distribution",
+  c186: "Grocery",
+  c187: "Modern Trade",
+  c188: "Distribution",
+  c189: "Modern Trade",
+  c190: "Modern Trade",
+  c191: "Modern Trade",
+  c192: "HoReCa",
+  c193: "Distribution",
+  c194: "Others",
+  c195: "Distribution",
+  c196: "HoReCa",
+  c197: "Grocery",
+  c198: "Others",
+  c199: "Distribution",
+  c200: "Modern Trade",
 };
 
 const defaultFilters: FiltersState = {
@@ -286,11 +289,78 @@ const defaultFilters: FiltersState = {
 const getCustomer = (customerMap: Map<string, Customer>, customerId: string) =>
   customerMap.get(customerId);
 
-const ReportRiskBadge = ({ risk }: { risk: RiskLevel }) => (
-  <span className={`reportRiskBadge reportRiskBadge--${risk.toLowerCase()}`}>
-    {`${risk[0]}${risk.slice(1).toLowerCase()} Risk`}
-  </span>
-);
+// const reportRiskBadgeStyles: Record<
+//   RiskLevel,
+//   { background: string; color: string; border: string }
+// > = {
+//   LOW: {
+//     background: "#edf8f0",
+//     color: "#256f3a",
+//     border: "#b8dfc2",
+//   },
+//   MEDIUM: {
+//     background: "#fff4e5",
+//     color: "#b95c00",
+//     border: "#f2d0a3",
+//   },
+//   HIGH: {
+//     background: "#fdebec",
+//     color: "#bb0000",
+//     border: "#f0b8bc",
+//   },
+//   CRITICAL: {
+//     background: "#f4ecf8",
+//     color: "#6f2c7f",
+//     border: "#d9bce3",
+//   },
+// };
+
+const ReportRiskBadge = ({ risk }: { risk: RiskLevel }) => {
+  const riskStyles = {
+    LOW: {
+      color: "#389e0d",
+      border: "#95de64",
+      background: "#f6ffed",
+    },
+    MEDIUM: {
+      color: "#d46b08",
+      border: "#ffd591",
+      background: "#fff7e6",
+    },
+    HIGH: {
+      color: "#cf1322",
+      border: "#ff7875",
+      background: "#fff1f0",
+    },
+    CRITICAL: {
+      color: "#722ed1",
+      border: "#d3adf7",
+      background: "#f9f0ff",
+    },
+  };
+
+  const style = riskStyles[risk];
+
+  return (
+    <span
+      style={{
+        padding: "1.5px 10px",
+        borderRadius: 8,
+        fontSize: 12,
+        fontWeight: 400,
+        color: style.color,
+        border: `1px solid ${style.border}`,
+        background: style.background,
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        whiteSpace: "nowrap",
+      }}
+    >
+      {`${risk[0]}${risk.slice(1).toLowerCase()} Risk`}
+    </span>
+  );
+};
 
 const formatTrendAxisValue = (value: number) => {
   if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
@@ -317,7 +387,10 @@ export default function Reports() {
     () =>
       Array.from(
         new Map(
-          requests.map((request) => [request.requestedById, request.requestedBy]),
+          requests.map((request) => [
+            request.requestedById,
+            request.requestedBy,
+          ]),
         ).entries(),
       ).map(([value, label]) => ({ value, label })),
     [requests],
@@ -334,15 +407,21 @@ export default function Reports() {
         filters.customerChannel === "ALL" ||
         customerChannelMap[customer.id] === filters.customerChannel;
       const businessUnitMatch =
-        filters.businessUnit === "ALL" || customer.businessUnit === filters.businessUnit;
+        filters.businessUnit === "ALL" ||
+        customer.businessUnit === filters.businessUnit;
       const salespersonMatch =
-        filters.salesperson === "ALL" || request.requestedById === filters.salesperson;
+        filters.salesperson === "ALL" ||
+        request.requestedById === filters.salesperson;
       const riskMatch =
         filters.riskLevel === "ALL" || customer.riskLevel === filters.riskLevel;
       const searchMatch =
         !filters.searchCustomer ||
-        customer.name.toLowerCase().includes(filters.searchCustomer.toLowerCase()) ||
-        customer.code.toLowerCase().includes(filters.searchCustomer.toLowerCase());
+        customer.name
+          .toLowerCase()
+          .includes(filters.searchCustomer.toLowerCase()) ||
+        customer.code
+          .toLowerCase()
+          .includes(filters.searchCustomer.toLowerCase());
 
       return (
         provinceMatch &&
@@ -364,15 +443,16 @@ export default function Reports() {
   );
 
   const totalActiveExposure = useMemo(
-    () => filteredRequests.reduce((total, request) => total + requestExposure(request), 0),
+    () =>
+      filteredRequests.reduce(
+        (total, request) => total + requestExposure(request),
+        0,
+      ),
     [filteredRequests],
   );
 
   const overdueRequests = useMemo(
-    () =>
-      filteredRequests.filter(
-        (request) => getOverdueExposure(request) > 0,
-      ),
+    () => filteredRequests.filter((request) => getOverdueExposure(request) > 0),
     [filteredRequests],
   );
 
@@ -382,48 +462,58 @@ export default function Reports() {
   );
 
   const overdueCustomers = useMemo(
-    () => filteredCustomers.filter((customer) => overdueCustomerIds.has(customer.id)),
+    () =>
+      filteredCustomers.filter((customer) =>
+        overdueCustomerIds.has(customer.id),
+      ),
     [filteredCustomers, overdueCustomerIds],
   );
 
   const tableRows = useMemo(() => {
-    return overdueCustomers.map((customer) => {
-      const customerRequests = overdueRequests
-        .filter((request) => request.customerId === customer.id)
-        .sort((left, right) =>
-          dayjs(left.promisedPaymentDate).isBefore(dayjs(right.promisedPaymentDate)) ? -1 : 1,
+    return overdueCustomers
+      .map((customer) => {
+        const customerRequests = overdueRequests
+          .filter((request) => request.customerId === customer.id)
+          .sort((left, right) =>
+            dayjs(left.promisedPaymentDate).isBefore(
+              dayjs(right.promisedPaymentDate),
+            )
+              ? -1
+              : 1,
+          );
+        const days = Math.max(
+          0,
+          ...customerRequests.map((request) => daysOverdue(request)),
         );
-      const days = Math.max(
-        0,
-        ...customerRequests.map((request) => daysOverdue(request)),
-      );
-      const oldestRequest = customerRequests[0]!;
-      const exposure = customerRequests.reduce(
-        (total, request) => total + getOverdueExposure(request),
-        0,
-      );
+        const oldestRequest = customerRequests[0]!;
+        const exposure = customerRequests.reduce(
+          (total, request) => total + getOverdueExposure(request),
+          0,
+        );
 
-      return {
-        id: customer.id,
-        code: customer.code,
-        customer,
-        customerChannel: customerChannelMap[customer.id] ?? "Others",
-        request: oldestRequest,
-        requestCount: customerRequests.length,
-        oldestDueDate: oldestRequest.promisedPaymentDate,
-        days,
-        exposure,
-        risk: customer.riskLevel,
-      };
-    }).sort((left, right) => right.exposure - left.exposure);
+        return {
+          id: customer.id,
+          code: customer.code,
+          customer,
+          customerChannel: customerChannelMap[customer.id] ?? "Others",
+          request: oldestRequest,
+          requestCount: customerRequests.length,
+          oldestDueDate: oldestRequest.promisedPaymentDate,
+          days,
+          exposure,
+          risk: customer.riskLevel,
+        };
+      })
+      .sort((left, right) => right.exposure - left.exposure);
   }, [overdueCustomers, overdueRequests]);
-  const topOverdueCustomers = useMemo(
-  () => tableRows.slice(0, 5),
-  [tableRows],
-);
+  const topOverdueCustomers = useMemo(() => tableRows.slice(0, 5), [tableRows]);
 
   const overdueExposure = useMemo(
-    () => overdueRequests.reduce((total, request) => total + getOverdueExposure(request), 0),
+    () =>
+      overdueRequests.reduce(
+        (total, request) => total + getOverdueExposure(request),
+        0,
+      ),
     [overdueRequests],
   );
 
@@ -464,32 +554,36 @@ export default function Reports() {
 
   const trendMax = Math.max(1, ...trendSeries.map((point) => point.value));
   const trendPoints = trendSeries.map((point, index) => {
-  const chartStart = 70;
-  const chartEnd = 520;
+    const chartStart = 70;
+    const chartEnd = 520;
 
-  const x =
-    chartStart +
-    (index * (chartEnd - chartStart)) /
-      Math.max(trendSeries.length - 1, 1);
+    const x =
+      chartStart +
+      (index * (chartEnd - chartStart)) / Math.max(trendSeries.length - 1, 1);
 
-  const y = 146 - (point.value / trendMax) * 106;
+    const y = 146 - (point.value / trendMax) * 106;
 
-  return { x, y };
-});
+    return { x, y };
+  });
 
-  const trendPolyline = trendPoints.map((point) => `${point.x},${point.y}`).join(" ");
+  const trendPolyline = trendPoints
+    .map((point) => `${point.x},${point.y}`)
+    .join(" ");
   const trendTickValues = [0, 0.25, 0.5, 0.75, 1].map((ratio) => ({
     ratio,
     label: formatTrendAxisValue(Math.round(trendMax * ratio)),
-}));
+  }));
 
   const latestTrendValue = trendSeries[trendSeries.length - 1]?.value ?? 0;
-  const previousTrendValue = trendSeries[trendSeries.length - 2]?.value ?? latestTrendValue;
-const trendDeltaPercent = previousTrendValue ? ((latestTrendValue - previousTrendValue) / previousTrendValue) * 100 : null;
-const trendDeltaLabel =
-  trendDeltaPercent === null
-    ? `New vs ${trendSeries[trendSeries.length - 2]?.label ?? "Prev Month"}`
-    : `${trendDeltaPercent >= 0 ? "↑" : "↓"} ${Math.abs(trendDeltaPercent).toFixed(1)}% vs ${trendSeries[trendSeries.length - 2]?.label ?? "Prev Month"}`;
+  const previousTrendValue =
+    trendSeries[trendSeries.length - 2]?.value ?? latestTrendValue;
+  const trendDeltaPercent = previousTrendValue
+    ? ((latestTrendValue - previousTrendValue) / previousTrendValue) * 100
+    : null;
+  const trendDeltaLabel =
+    trendDeltaPercent === null
+      ? `New vs ${trendSeries[trendSeries.length - 2]?.label ?? "Prev Month"}`
+      : `${trendDeltaPercent >= 0 ? "↑" : "↓"} ${Math.abs(trendDeltaPercent).toFixed(1)}% vs ${trendSeries[trendSeries.length - 2]?.label ?? "Prev Month"}`;
 
   const agingBuckets = [
     { label: "1–7 Days", value: 0, color: "#0a6ff2" },
@@ -514,7 +608,10 @@ const trendDeltaLabel =
         .slice(0, index)
         .reduce((sum, item) => sum + item.value, 0);
       const end = start + bucket.value;
-      const total = Math.max(1, agingBuckets.reduce((sum, item) => sum + item.value, 0));
+      const total = Math.max(
+        1,
+        agingBuckets.reduce((sum, item) => sum + item.value, 0),
+      );
 
       return `${bucket.color} ${Math.round((start / total) * 100)}% ${Math.round((end / total) * 100)}%`;
     })
@@ -545,7 +642,8 @@ const trendDeltaLabel =
             Customer Overdue Detail
           </Typography.Title>
           <div className="pageSubtitle">
-            Prioritize overdue balances, collection exposure, customer segmentation, and aging status.
+            Prioritize overdue balances, collection exposure, customer
+            segmentation, and aging status.
           </div>
         </div>
         <Button icon={<DownloadOutlined />} onClick={exportCsv}>
@@ -559,7 +657,10 @@ const trendDeltaLabel =
             value={filters.province}
             options={[
               { value: "ALL", label: "All Provinces" },
-              ...provinceOptions.map((option) => ({ value: option, label: option })),
+              ...provinceOptions.map((option) => ({
+                value: option,
+                label: option,
+              })),
             ]}
             onChange={(value) =>
               setFilters((current) => ({ ...current, province: value }))
@@ -578,7 +679,10 @@ const trendDeltaLabel =
             value={filters.businessUnit}
             options={[
               { value: "ALL", label: "All Business Units" },
-              ...businessUnitOptions.map((option) => ({ value: option, label: option })),
+              ...businessUnitOptions.map((option) => ({
+                value: option,
+                label: option,
+              })),
             ]}
             onChange={(value) =>
               setFilters((current) => ({ ...current, businessUnit: value }))
@@ -612,11 +716,16 @@ const trendDeltaLabel =
             placeholder="Search Customer"
             value={filters.searchCustomer}
             onChange={(event) =>
-              setFilters((current) => ({ ...current, searchCustomer: event.target.value }))
+              setFilters((current) => ({
+                ...current,
+                searchCustomer: event.target.value,
+              }))
             }
             style={{ minWidth: 220 }}
           />
-          <Button onClick={() => setFilters(defaultFilters)}>Reset Filters</Button>
+          <Button onClick={() => setFilters(defaultFilters)}>
+            Reset Filters
+          </Button>
         </div>
       </div>
 
@@ -636,13 +745,17 @@ const trendDeltaLabel =
         <KpiCard
           title="Average Days Overdue"
           value={averageDaysOverdue}
-          prefix={<CalendarOutlined style={{ fontSize: 28, color: "#f59e0b" }} />}
+          prefix={
+            <CalendarOutlined style={{ fontSize: 28, color: "#f59e0b" }} />
+          }
           color="#0f172a"
         />
         <KpiCard
           title="Overdue Exposure % of Active"
           value={`${activeShare}%`}
-          prefix={<LineChartOutlined style={{ fontSize: 28, color: "#059669" }} />}
+          prefix={
+            <LineChartOutlined style={{ fontSize: 28, color: "#059669" }} />
+          }
           color="#0f172a"
         />
       </div>
@@ -653,21 +766,65 @@ const trendDeltaLabel =
             title="Overdue Exposure Trend"
             className="surface analyticsCard"
             extra={
-              <div style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 12, color: "#475467" }}>
-                <span style={{ fontWeight: 700, color: "#111827" }}>{formatTrendSummaryValue(latestTrendValue)}</span>
-                <span style={{ color:  trendDeltaPercent === null || trendDeltaPercent >= 0 ? "#0a6ff2" : "#dc2626" }}>{trendDeltaLabel}</span>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 8,
+                  alignItems: "center",
+                  fontSize: 12,
+                  color: "#475467",
+                }}
+              >
+                <span style={{ fontWeight: 700, color: "#111827" }}>
+                  {formatTrendSummaryValue(latestTrendValue)}
+                </span>
+                <span
+                  style={{
+                    color:
+                      trendDeltaPercent === null || trendDeltaPercent >= 0
+                        ? "#0a6ff2"
+                        : "#dc2626",
+                  }}
+                >
+                  {trendDeltaLabel}
+                </span>
               </div>
             }
           >
             <div className="dashboardTrend">
-              <svg viewBox="0 0 560 190" className="trendSvg" preserveAspectRatio="none">
-                <line x1="70" y1="18" x2="70" y2="146" stroke="#e5e7eb" strokeWidth="1" />
-                <line x1="70" y1="146" x2="520" y2="146" stroke="#e5e7eb" strokeWidth="1" />
+              <svg
+                viewBox="0 0 560 190"
+                className="trendSvg"
+                preserveAspectRatio="none"
+              >
+                <line
+                  x1="70"
+                  y1="18"
+                  x2="70"
+                  y2="146"
+                  stroke="#e5e7eb"
+                  strokeWidth="1"
+                />
+                <line
+                  x1="70"
+                  y1="146"
+                  x2="520"
+                  y2="146"
+                  stroke="#e5e7eb"
+                  strokeWidth="1"
+                />
                 {trendTickValues.map((tick) => {
                   const y = 146 - tick.ratio * 106;
                   return (
                     <g key={tick.label}>
-                      <line x1="70" y1={y} x2="520" y2={y} stroke="#f3f4f6" strokeWidth="1" />
+                      <line
+                        x1="70"
+                        y1={y}
+                        x2="520"
+                        y2={y}
+                        stroke="#f3f4f6"
+                        strokeWidth="1"
+                      />
                       <text
                         x="6"
                         y={y + 2}
@@ -690,13 +847,13 @@ const trendDeltaLabel =
                   strokeLinejoin="round"
                 />
                 {trendPoints.map((point, index) => (
-                  <circle 
-                    key={`${trendSeries[index]!.label}-${index}`} 
-                    cx={point.x} 
-                    cy={point.y} 
-                    r="3.2" 
-                    fill="#0a6ff2" 
-                    />
+                  <circle
+                    key={`${trendSeries[index]!.label}-${index}`}
+                    cx={point.x}
+                    cy={point.y}
+                    r="3.2"
+                    fill="#0a6ff2"
+                  />
                 ))}
                 {trendPoints.map((point, index) => (
                   <text
@@ -723,7 +880,9 @@ const trendDeltaLabel =
                 }}
               >
                 <div className="donutInner">
-                  <div className="donutValue">{formatMoney(overdueExposure)}</div>
+                  <div className="donutValue">
+                    {formatMoney(overdueExposure)}
+                  </div>
                   <div className="donutCaption">USD</div>
                 </div>
               </div>
@@ -774,7 +933,11 @@ const trendDeltaLabel =
             title="Top Overdue Customers"
             className="surface analyticsCard topOverdueCard"
           >
-            <div className="topOverdueTable" role="table" aria-label="Top overdue customers">
+            <div
+              className="topOverdueTable"
+              role="table"
+              aria-label="Top overdue customers"
+            >
               <div className="topOverdueTableHeader" role="row">
                 <span role="columnheader">Customer</span>
                 <span role="columnheader">Days Overdue</span>
@@ -788,8 +951,12 @@ const trendDeltaLabel =
                       {item.customer.name}
                     </span>
                   </Tooltip>
-                  <span className="topOverdueDays" role="cell">{item.days}</span>
-                  <span role="cell"><ReportRiskBadge risk={item.risk} /></span>
+                  <span className="topOverdueDays" role="cell">
+                    {item.days}
+                  </span>
+                  <span role="cell">
+                    <ReportRiskBadge risk={item.risk} />
+                  </span>
                   <strong className="topOverdueAmount" role="cell">
                     {formatMoney(item.exposure)}
                   </strong>
@@ -886,7 +1053,8 @@ const trendDeltaLabel =
       </div>
 
       <div className="pageFooterNote">
-        <AlertOutlined /> All amounts are in USD. Data updated as of 31 May 2025 10:30 AM (UTC+7).
+        <AlertOutlined /> All amounts are in USD. Data updated as of 31 May 2025
+        10:30 AM (UTC+7).
       </div>
     </div>
   );

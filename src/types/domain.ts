@@ -35,6 +35,8 @@ export interface Customer {
   latePayments6m: number;
   creditUtilisation: number;
   activeTemporaryCredit: number;
+  promisedDate?: string;
+  settlementDate?: string;
 }
 export interface Attachment {
   id: string;
@@ -65,11 +67,13 @@ export interface PaymentRecord {
   id: string;
   customerId: string;
   date: string;
-  type: "PAYMENT" | "INVOICE" | "TEMPORARY_CREDIT";
+  type: string;
   reference: string;
   amount: number;
   result: string;
   daysLate?: number;
+  promisedDate?: string;
+  settlementDate?: string;
 }
 export interface TemporaryCreditRequest {
   id: string;

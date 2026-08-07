@@ -36,12 +36,11 @@ import { formatDate, formatMoney } from "@/utils/format";
 type ModalType = "APPROVE" | "REJECT" | "MORE_INFO";
 
 const getRiskScoreColor = (score: number) => {
-  if (score >= 75) return '#7b1fa2'; // Critical: purple
-  if (score >= 50) return '#d32f2f'; // High: red
-  if (score >= 25) return '#e9730c'; // Medium: orange
-  return '#188918'; // Low: green
+  if (score >= 85) return "#d32f2f"; // Critical
+  if (score >= 60) return "#e9730c"; // High
+  if (score >= 35) return "#e5a100"; // Medium
+  return "#188918"; // Low: green
 };
-
 
 export default function RequestReview() {
   const { requestId = "" } = useParams<{ requestId: string }>();
@@ -159,8 +158,7 @@ export default function RequestReview() {
               Request ID: {request.requestNumber}
             </Typography.Text>
           </Space>
-        </div>
-
+        </div>{" "}
         <div className="reviewActions">
           <Space wrap>
             <Button
@@ -199,7 +197,6 @@ export default function RequestReview() {
           /> */}
         </div>
       </div>
-
       {success && (
         <Alert
           type="success"
@@ -211,7 +208,6 @@ export default function RequestReview() {
           style={{ marginBottom: 16 }}
         />
       )}
-
       {error && (
         <Alert
           type="error"
@@ -222,7 +218,6 @@ export default function RequestReview() {
           style={{ marginBottom: 16 }}
         />
       )}
-
       <Card
         className="surface"
         styles={{ body: { padding: "16px 20px" } }}
@@ -260,7 +255,6 @@ export default function RequestReview() {
           ))}
         </div>
       </Card>
-
       {/* {success && (
         <Alert
           type="success"
@@ -282,8 +276,7 @@ export default function RequestReview() {
           onClose={() => setError("")}
           style={{ marginBottom: 16 }}
         />
-      )} */}
-
+      )} */}{" "}
       <div
         className="twoColumn"
         style={{ gridTemplateColumns: "minmax(0, 1.65fr) minmax(440px, 1fr)" }}
@@ -356,8 +349,7 @@ export default function RequestReview() {
                     <Typography.Text>{value}</Typography.Text>
                   </div>
                 ))}
-              </div>
-
+              </div>{" "}
               <div>
                 <Typography.Text strong>Supporting Documents</Typography.Text>
                 <List
@@ -415,52 +407,75 @@ export default function RequestReview() {
             </div>
           </Card>
 
-          <Card title="Payment & Credit History" className="surface">
+          <Card title="Temporary Credit Request History" className="surface">
             <Table<PaymentRecord>
               rowKey="id"
-              dataSource={payments}
+              dataSource={payments.filter(
+                (item) => item.type === "TEMPORARY_CREDIT",
+              )}
               pagination={false}
               columns={[
                 {
-                  title: "Date",
+                  title: "Request Date",
                   dataIndex: "date",
                   render: (value: string) => formatDate(value),
                 },
                 {
-                  title: "Type",
-                  dataIndex: "type",
-                },
-                {
-                  title: "Reference",
+                  title: "Request ID",
                   dataIndex: "reference",
+                  width: 180,
+                  render: (value: string) => {
+                    const idNumber = value.replace(/\D/g, "");
+
+                    const requestId = `TCR-2026-${idNumber}`;
+
+                    return (
+                      <Typography.Link
+                        onClick={() =>
+                          history.push(`/temporary-credit/${requestId}`)
+                        }
+                      >
+                        {requestId}
+                      </Typography.Link>
+                    );
+                  },
                 },
                 {
-                  title: "Amount",
+                  title: "Credit Amount",
                   dataIndex: "amount",
                   align: "right",
                   render: (value: number) => formatMoney(value),
                 },
                 {
-                  title: "Result / Status",
-                  dataIndex: "result",
+                  title: "Promise Date",
+                  dataIndex: "promisedDate",
+                  render: (value: string) => formatDate(value),
                 },
                 {
-                  title: "Days Late",
+                  title: "Settlement Date",
+                  dataIndex: "settlementDate",
+                  render: (value?: string) => (value ? formatDate(value) : "-"),
+                },
+                {
+                  title: "Days Overdue",
                   dataIndex: "daysLate",
                   render: (value?: number) =>
                     value ? (
                       <Typography.Text type="danger">
-                        {value} days late
+                        {value} days
                       </Typography.Text>
                     ) : (
                       "On time"
                     ),
                 },
+                {
+                  title: "Status",
+                  dataIndex: "result",
+                },
               ]}
             />
           </Card>
-        </div>
-
+        </div>{" "}
         <div className="stack">
           <Card
             title="Customer Risk Snapshot"
@@ -497,7 +512,9 @@ export default function RequestReview() {
                     >
                       {customer.riskScore}
                     </div>
-                    <div style={{ color: "#64748b", fontSize: 12, marginTop: 3 }}>
+                    <div
+                      style={{ color: "#64748b", fontSize: 12, marginTop: 3 }}
+                    >
                       Risk score
                     </div>
                   </div>
@@ -512,7 +529,10 @@ export default function RequestReview() {
                 }}
               >
                 {[
-                  ["Outstanding balance", formatMoney(customer.outstandingBalance)],
+                  [
+                    "Outstanding balance",
+                    formatMoney(customer.outstandingBalance),
+                  ],
                   ["Overdue amount", formatMoney(customer.overdueAmount)],
                   ["Overdue invoices", customer.overdueInvoices],
                   ["Credit utilization", `${customer.creditUtilisation}%`],
@@ -529,7 +549,11 @@ export default function RequestReview() {
                   >
                     <Typography.Text
                       type="secondary"
-                      style={{ display: "block", fontSize: 12, lineHeight: 1.35 }}
+                      style={{
+                        display: "block",
+                        fontSize: 12,
+                        lineHeight: 1.35,
+                      }}
                     >
                       {label}
                     </Typography.Text>
@@ -566,8 +590,7 @@ export default function RequestReview() {
                 View full customer risk dashboard →
               </Button>
             </div>
-          </Card>
-
+          </Card>{" "}
           <Card title="Approval History" className="surface">
             <List
               dataSource={request.history}
@@ -586,7 +609,6 @@ export default function RequestReview() {
           </Card>
         </div>
       </div>
-
       <Modal
         title={
           modal === "APPROVE"
