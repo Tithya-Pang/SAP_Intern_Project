@@ -20,7 +20,7 @@ export const statusColors: Record<RequestStatus, string> = {
   APPROVED:'green', ACTIVE:'green', REJECTED:'red', DUE_TODAY:'orange', OVERDUE:'red',
   SETTLED:'green', CANCELLED:'default'
 };
-export const riskColors: Record<RiskLevel, string> = { LOW:'green', MEDIUM:'orange', HIGH:'red', CRITICAL:'purple' };
+export const riskColors: Record<RiskLevel, string> = { LOW:'green', MEDIUM:'yellow', HIGH:'orange', CRITICAL:'red' };
 export function effectiveStatus(request: TemporaryCreditRequest): RequestStatus {
   if (request.settledAt || request.status === 'SETTLED') return 'SETTLED';
   if (!['APPROVED','ACTIVE','DUE_TODAY','OVERDUE'].includes(request.status)) return request.status;

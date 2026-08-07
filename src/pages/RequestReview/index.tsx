@@ -36,9 +36,9 @@ import { formatDate, formatMoney } from "@/utils/format";
 type ModalType = "APPROVE" | "REJECT" | "MORE_INFO";
 
 const getRiskScoreColor = (score: number) => {
-  if (score >= 75) return '#7b1fa2'; // Critical: purple
-  if (score >= 50) return '#d32f2f'; // High: red
-  if (score >= 25) return '#e9730c'; // Medium: orange
+  if (score >= 85) return '#d32f2f'; // Critical
+  if (score >= 60) return '#e9730c'; // High
+  if (score >= 35) return '#e5a100'; // Medium
   return '#188918'; // Low: green
 };
 
@@ -415,48 +415,62 @@ export default function RequestReview() {
             </div>
           </Card>
 
-          <Card title="Payment & Credit History" className="surface">
+          <Card title="Temporary Credit Request History" className="surface">
             <Table<PaymentRecord>
               rowKey="id"
               dataSource={payments}
               pagination={false}
               columns={[
                 {
-                  title: "Date",
+                  title: "Request Date",
                   dataIndex: "date",
                   render: (value: string) => formatDate(value),
                 },
                 {
-                  title: "Type",
-                  dataIndex: "type",
-                },
-                {
-                  title: "Reference",
+                  title: "Request ID",
                   dataIndex: "reference",
+                  render: (value: string) => (
+                    <Typography.Link
+                      onClick={() => history.push(`/temporary-credit/${value}`)}
+                    >
+                      {value}
+                    </Typography.Link>
+                  ),
                 },
                 {
-                  title: "Amount",
+                  title: "Credit Amount",
                   dataIndex: "amount",
                   align: "right",
                   render: (value: number) => formatMoney(value),
                 },
                 {
-                  title: "Result / Status",
-                  dataIndex: "result",
+                  title: "Promise Date",
+                  dataIndex: "promisedDate",
+                  render: (value: string) => formatDate(value),
                 },
                 {
-                  title: "Days Late",
+                  title: "Settlement Date",
+                  dataIndex: "settlementDate",
+                  render: (value?: string) =>
+                    value ? formatDate(value) : "-",
+                },
+                {
+                  title: "Days Overdue",
                   dataIndex: "daysLate",
                   render: (value?: number) =>
                     value ? (
-                      <Typography.Text type="danger">
-                        {value} days late
-                      </Typography.Text>
-                    ) : (
-                      "On time"
-                    ),
+                    <Typography.Text type="danger">
+                      {value} days
+                    </Typography.Text>
+                  ) : (
+                    "On time"
+                  ),
                 },
-              ]}
+                {
+                  title: "Status",
+                  dataIndex: "result",
+                },
+              ]}    
             />
           </Card>
         </div>
