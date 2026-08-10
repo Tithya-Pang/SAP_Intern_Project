@@ -3375,7 +3375,7 @@ export const payments: PaymentRecord[] = customers.flatMap(
             amount: customer.overdueAmount,
             promisedDate: date(-140),
             settlementDate: undefined,
-            result: "Unpaid/Overdue",
+            result: "Overdue",
             daysLate: 5,
           },
         ]

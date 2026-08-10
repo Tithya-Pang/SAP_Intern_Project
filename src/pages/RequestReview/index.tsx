@@ -30,7 +30,9 @@ import type {
   TemporaryCreditRequest,
 } from "@/types/domain";
 import { RiskBadge, StatusBadge } from "@/components/Badges";
-import { canApproveRequest } from "@/utils/permissions";
+import { canApproveRequest, 
+        canMarkAsSettled,  
+      } from "@/utils/permissions";
 import { formatDate, formatMoney } from "@/utils/format";
 
 type ModalType = "APPROVE" | "REJECT" | "MORE_INFO";
@@ -58,6 +60,8 @@ export default function RequestReview() {
   const [submitting, setSubmitting] = useState(false);
   const [modal, setModal] = useState<ModalType>();
   const [form] = Form.useForm();
+  const [followUpOpen, setFollowUpOpen] = useState(false);
+  const [followUpForm] = Form.useForm();
 
   const load = () => {
     setLoading(true);
@@ -124,12 +128,108 @@ export default function RequestReview() {
     );
   }
 
+  const addFollowUp = async () => {
+  if (!currentUser) return;
+
+  try {
+    const values = await followUpForm.validateFields();
+
+    setSubmitting(true);
+
+    await temporaryCreditService.addFollowUp(
+      requestId,
+      currentUser,
+      values.comment,
+    );
+
+    setFollowUpOpen(false);
+    followUpForm.resetFields();
+
+    setSuccess("Follow-up recorded successfully.");
+
+    refresh();
+    load();
+  } catch (reason) {
+    if (reason instanceof Error) {
+      setError(reason.message);
+    }
+  } finally {
+    setSubmitting(false);
+  }
+};
+
+const settle = () => {
+  if (!currentUser) return;
+
+  Modal.confirm({
+    title: "Mark this temporary credit as settled?",
+    content:
+      "This action will mark the temporary credit as settled and record it in the history.",
+    okText: "Confirm Settlement",
+
+    onOk: async () => {
+      try {
+        await temporaryCreditService.settle(requestId, currentUser);
+
+        setSuccess("Temporary credit marked as settled.");
+
+        refresh();
+        load();
+      } catch (reason) {
+        if (reason instanceof Error) {
+          setError(reason.message);
+        }
+      }
+    },
+  });
+};
+  const activate = () => {
+  if (!currentUser) return;
+
+  Modal.confirm({
+    title: "Activate this temporary credit?",
+    content:
+      "The approved temporary credit will become active and begin monitoring.",
+    okText: "Activate",
+
+    onOk: async () => {
+      try {
+        setSubmitting(true);
+
+        await temporaryCreditService.activate(
+          requestId,
+          currentUser,
+        );
+
+        setSuccess("Temporary credit activated successfully.");
+
+        refresh();
+        load();
+      } catch (reason) {
+        if (reason instanceof Error) {
+          setError(reason.message);
+        }
+      } finally {
+        setSubmitting(false);
+      }
+    },
+  });
+};
+
   const { request, customer, payments } = data;
 
   const decisionEnabled =
     request.status === "PENDING_SALES_MANAGER_APPROVAL" &&
     !!currentUser &&
     canApproveRequest(currentUser.role);
+  const activationEnabled =
+    !!currentUser &&
+    ["FINANCE_AR", "ADMINISTRATOR"].includes(currentUser.role) &&
+    request.status === "APPROVED";
+  const financeActionEnabled =
+  !!currentUser &&
+  ["FINANCE_AR", "ADMINISTRATOR"].includes(currentUser.role) &&
+  ["ACTIVE", "DUE_TODAY", "OVERDUE"].includes(request.status);
 
   return (
     <div className="page">
@@ -161,33 +261,60 @@ export default function RequestReview() {
         </div>{" "}
         <div className="reviewActions">
           <Space wrap>
-            <Button
-              type="primary"
-              ghost
-              disabled={!decisionEnabled}
-              icon={<CheckOutlined />}
-              onClick={() => setModal("APPROVE")}
-            >
-              Approve
+            {request.status === "PENDING_SALES_MANAGER_APPROVAL" && (
+            <>
+              <Button
+                type="primary"
+                ghost
+                disabled={!decisionEnabled}
+                icon={<CheckOutlined />}
+                onClick={() => setModal("APPROVE")}
+              >
+                Approve
+              </Button>
+
+              <Button
+                danger
+                disabled={!decisionEnabled}
+                icon={<CloseOutlined />}
+                onClick={() => setModal("REJECT")}
+              >
+                Reject
+              </Button>
+
+              <Button
+                disabled={!decisionEnabled}
+                icon={<InfoCircleOutlined />}
+                onClick={() => setModal("MORE_INFO")}
+              >
+                Request More Info
+              </Button>
+          </>
+        )}
+
+        {activationEnabled && (
+          <Button
+          type="primary"
+          onClick={activate}
+        >
+          Activate
+        </Button>
+        )}
+        
+        {financeActionEnabled && (
+          <>
+            <Button onClick={() => setFollowUpOpen(true)}>
+              Follow Up
             </Button>
 
-            <Button
-              danger
-              disabled={!decisionEnabled}
-              icon={<CloseOutlined />}
-              onClick={() => setModal("REJECT")}
-            >
-              Reject
+            {canMarkAsSettled(currentUser!.role) && (
+              <Button type="primary" onClick={settle}>
+              Settle
             </Button>
-
-            <Button
-              disabled={!decisionEnabled}
-              icon={<InfoCircleOutlined />}
-              onClick={() => setModal("MORE_INFO")}
-            >
-              Request More Info
-            </Button>
-          </Space>
+          )}
+        </>
+      )}
+    </Space>
 
           {/* <Alert
             type="info"
@@ -713,6 +840,38 @@ export default function RequestReview() {
             rules={modal === "MORE_INFO" ? [{ required: true }] : []}
           >
             <Input.TextArea rows={4} maxLength={1000} showCount />
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        title="Record Finance Follow-up"
+        open={followUpOpen}
+        onCancel={() => {
+          setFollowUpOpen(false);
+          followUpForm.resetFields();
+        }}
+        onOk={() => void addFollowUp()}
+        okText="Record Follow-up"
+        confirmLoading={submitting}
+      >
+        <Form form={followUpForm} layout="vertical">
+          <Form.Item
+            name="comment"
+            label="Comment"
+            rules={[
+              {
+                required: true,
+                min: 5,
+                message: "Please enter a follow-up comment.",
+              },
+            ]}
+          >
+            <Input.TextArea
+              rows={4}
+              maxLength={1000}
+              showCount
+              placeholder="Enter finance follow-up details..."
+            />
           </Form.Item>
         </Form>
       </Modal>

@@ -57,13 +57,18 @@ const navItems: NavItem[] = [
     roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
     children: [
       {
-        key: "/approved-temporary-credit",
-        label: "Active Credit",
+        key: "/active-credit",
+        label: "Active Requests",
         roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
       },
       {
-        key: "/due-today",
-        label: "Due Today",
+        key: "/approved-temporary-credit",
+        label: "Approved",
+        roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
+      },
+      {
+        key: "/rejected-credit",
+        label: "Rejected",
         roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
       },
       {
@@ -279,7 +284,7 @@ function Shell() {
 
         <div className={styles.brand}>
           <Typography.Text strong className={styles.brandName}>
-            COD Temporary Credit
+            Enterprise Revenue Governance Management 
           </Typography.Text>
         </div>
 {/* 
@@ -317,7 +322,7 @@ function Shell() {
 
       <Layout>
         <Layout.Sider
-          width={248}
+          width={310}
           collapsedWidth={68}
           collapsed={collapsed}
           theme="light"

@@ -12,7 +12,6 @@ import {
   Modal,
   Progress,
   Space,
-  Tabs,
   Typography,
   message,
 } from "antd";
@@ -31,29 +30,34 @@ export default function Monitoring() {
   const { currentUser, refresh } = useApp();
   const { requests, customers, loading, error } = useCreditData();
   const fixed =
-    location.pathname === "/due-today"
-      ? "DUE_TODAY"
-      : location.pathname === "/overdue"
-        ? "OVERDUE"
-        : "";
-  const [tab, setTab] = useState(fixed || "ACTIVE");
+  location.pathname === "/active-credit"
+    ? "ACTIVE"
+    : location.pathname === "/approved-temporary-credit"
+      ? "APPROVED"
+      : location.pathname === "/rejected-credit"
+        ? "REJECTED"
+        : location.pathname === "/overdue"
+          ? "OVERDUE"
+          : "";
+  // const [tab, setTab] = useState(fixed || "ACTIVE");
   const [query, setQuery] = useState("");
   const [follow, setFollow] = useState<TemporaryCreditRequest>();
   const [form] = Form.useForm();
   const eligible = requests
     .filter((r) =>
-      ["APPROVED", "ACTIVE", "DUE_TODAY", "OVERDUE"].includes(r.status),
+      ["APPROVED", "ACTIVE", "DUE_TODAY", "OVERDUE", "REJECTED"].includes(r.status),
     )
     .map((r) => ({ ...r, status: effectiveStatus(r) }));
   const visible = useMemo(
     () =>
       eligible.filter((r) => {
         const c = customers.find((x) => x.id === r.customerId);
-        const matches = fixed
-          ? r.status === fixed
-          : tab === "ACTIVE"
-            ? ["APPROVED", "ACTIVE"].includes(r.status)
-            : r.status === tab;
+        const matches =
+        fixed === "ACTIVE"
+          ? ["ACTIVE", "DUE_TODAY"].includes(r.status)
+          : fixed !== ""
+            ? r.status === fixed
+            : true;
         return (
           matches &&
           `${r.requestNumber} ${c?.name}`
@@ -61,7 +65,7 @@ export default function Monitoring() {
             .includes(query.toLowerCase())
         );
       }),
-    [eligible, customers, fixed, tab, query],
+    [eligible, customers, fixed, query],
   );
   const due = eligible.filter((r) => r.status === "DUE_TODAY"),
     overdue = eligible.filter((r) => r.status === "OVERDUE");
@@ -99,11 +103,15 @@ export default function Monitoring() {
       <div className="pageHeader">
         <div>
           <Typography.Title level={2} className="pageTitle">
-            {fixed === "DUE_TODAY"
-              ? "Due Today"
-              : fixed === "OVERDUE"
-                ? "Overdue"
-                : "Approved Temporary Credit"}
+            {fixed === "ACTIVE"
+              ? "Active Requests"
+              : fixed === "APPROVED"
+                ? "Approved Temporary Credit"
+                : fixed === "REJECTED"
+                  ? "Rejected Temporary Credit"
+                  : fixed === "OVERDUE"
+                    ? "Overdue Temporary Credit"
+                    : "Credit Control and Monitoring"}
           </Typography.Title>
           <div className="pageSubtitle">
             View and monitor approved temporary credit requests.
@@ -150,7 +158,7 @@ export default function Monitoring() {
         />
       </div>
       <Card className="surface">
-        {!fixed && (
+        {/* {!fixed && (
           <Tabs
             activeKey={tab}
             onChange={setTab}
@@ -160,7 +168,7 @@ export default function Monitoring() {
               { key: "OVERDUE", label: `Overdue (${overdue.length})` },
             ]}
           />
-        )}
+        )} */}
         <Input
           prefix={<SearchOutlined />}
           placeholder="Search customer or request ID…"
@@ -177,18 +185,12 @@ export default function Monitoring() {
               <Button onClick={() => history.push(`/pending-approval/${r.id}`)}>
                 View
               </Button>
+
               {r.status === "APPROVED" &&
                 currentUser &&
-                ["SALES_MANAGER", "ADMINISTRATOR"].includes(
-                  currentUser.role,
-                ) && <Button onClick={() => void activate(r)}>Activate</Button>}
-              {currentUser &&
                 ["FINANCE_AR", "ADMINISTRATOR"].includes(currentUser.role) && (
-                  <Button onClick={() => setFollow(r)}>Follow Up</Button>
-                )}
-              {currentUser && canMarkAsSettled(currentUser.role) && (
-                <Button type="primary" onClick={() => settle(r)}>
-                  Settle
+                <Button onClick={() => void activate(r)}>
+                  Activate
                 </Button>
               )}
             </Space>

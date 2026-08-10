@@ -264,7 +264,7 @@ export const repository = {
   async activate(id: string, actor: User) {
     await delay();
     const request = getRequestRef(id);
-    if (!canApproveRequest(actor.role) || request.status !== "APPROVED")
+    if (!["FINANCE_AR", "ADMINISTRATOR"].includes(actor.role) || request.status !== "APPROVED")
       throw new Error("This request cannot be activated.");
     const from = request.status;
     request.status = "ACTIVE";
@@ -303,7 +303,7 @@ export const repository = {
     if (!canMarkAsSettled(actor.role))
       throw new Error("You do not have permission to settle requests.");
     if (
-      !["APPROVED", "ACTIVE", "DUE_TODAY", "OVERDUE"].includes(request.status)
+      !["ACTIVE", "DUE_TODAY", "OVERDUE"].includes(request.status)
     )
       throw new Error("This request cannot be settled.");
     const from = request.status;
