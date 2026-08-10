@@ -45,14 +45,14 @@ const navItems: NavItem[] = [
   },
   {
     key: "/pending-approval",
-    label: "Approval Queue",
+    label: "Credit Request Management",
     icon: <FileTextOutlined />,
     badge: 12,
     roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
   },
   {
     key: "credit-monitoring",
-    label: "Credit Monitoring",
+    label: "Credit control and Monitoring",
     icon: <LineChartOutlined />,
     roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
     children: [
@@ -75,7 +75,7 @@ const navItems: NavItem[] = [
   },
   {
     key: "/customer-risk",
-    label: "Customer Risk",
+    label: "Business Partner Performance",
     icon: <SafetyCertificateOutlined />,
     roles: ["SALES_OPERATION", "SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
   },
@@ -99,7 +99,7 @@ const navItems: NavItem[] = [
   },
   {
     key: "/reports-analytics",
-    label: "Reports & Analytics",
+    label: "Credit Evaluation and Risk Report ",
     icon: <BarChartOutlined />,
     roles: ["SALES_MANAGER", "FINANCE_AR", "ADMINISTRATOR"],
   },

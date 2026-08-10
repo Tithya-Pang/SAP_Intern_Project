@@ -3364,18 +3364,22 @@ export const payments: PaymentRecord[] = customers.flatMap(
       result: "Settled",
       daysLate: 0,
     },
-    {
-      id: `p${index}-5`,
-      customerId: customer.id,
-      date: date(-120),
-      type: "TEMPORARY_CREDIT",
-      reference: `TCR-${now.year()}-${40 + index}`,
-      amount: 4500 + index * 300,
-      promisedDate: date(-140),
-      settlementDate: undefined,
-      result: "Active",
-      daysLate: 5,
-    },
+    ...(customer.overdueAmount > 0
+      ? [
+          {
+            id: `p${index}-5`,
+            customerId: customer.id,
+            date: date(-120),
+            type: "TEMPORARY_CREDIT",
+            reference: `TCR-${now.year()}-${40 + index}`,
+            amount: customer.overdueAmount,
+            promisedDate: date(-140),
+            settlementDate: undefined,
+            result: "Unpaid/Overdue",
+            daysLate: 5,
+          },
+        ]
+      : []),
     {
       id: `p${index}-3`,
       customerId: customer.id,
